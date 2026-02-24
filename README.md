@@ -48,6 +48,7 @@ npx @anxforever/stylekit-style-prompts-skill doctor
 node bin/stylekit-style-prompts-skill.js doctor
 node bin/stylekit-style-prompts-skill.js install --tool codex --target /tmp/stylekit-skill-test --force
 node bin/stylekit-style-prompts-skill.js uninstall --target /tmp/stylekit-skill-test
+python3 scripts/audit_style_rule_conflicts.py --format text
 python3 scripts/smoke_test.py
 python3 scripts/run_pipeline.py --query "高端科技SaaS财务后台，玻璃质感，强调可读性" --stack nextjs --format json
 ```

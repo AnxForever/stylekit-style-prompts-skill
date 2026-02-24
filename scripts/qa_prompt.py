@@ -138,6 +138,10 @@ RULE_STOPWORDS = {
     "或",
 }
 CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+RADIUS_TOKEN_RE = re.compile(r"\brounded(?:-[a-z0-9]+)?\b", re.IGNORECASE)
+SHADOW_TOKEN_RE = re.compile(r"\bshadow(?:-[a-z0-9\[\]_/.-]+)?\b", re.IGNORECASE)
+BG_WHITE_TOKEN_RE = re.compile(r"\bbg-white(?:/[0-9]{1,3})?\b", re.IGNORECASE)
+BG_BLACK_TOKEN_RE = re.compile(r"\bbg-black(?:/[0-9]{1,3})?\b", re.IGNORECASE)
 
 
 def _extract_from_json_obj(obj: Any, preferred_field: str) -> tuple[str | None, str | None]:
@@ -264,6 +268,42 @@ def rule_polarity(rule: str) -> str:
     return "neg" if any(neg in low for neg in NEGATORS) else "pos"
 
 
+def extract_utility_signatures(rule: str) -> dict[str, set[str]]:
+    low = str(rule or "").lower()
+    signatures: dict[str, set[str]] = {}
+
+    for token in RADIUS_TOKEN_RE.findall(low):
+        value = token.split("-", 1)[1] if "-" in token else "base"
+        signatures.setdefault("radius", set()).add(value)
+
+    for token in SHADOW_TOKEN_RE.findall(low):
+        value = token.split("-", 1)[1] if "-" in token else "base"
+        signatures.setdefault("shadow", set()).add(value)
+
+    for token in BG_WHITE_TOKEN_RE.findall(low):
+        value = "translucent" if "/" in token else "opaque"
+        signatures.setdefault("bg-white", set()).add(value)
+
+    for token in BG_BLACK_TOKEN_RE.findall(low):
+        value = "translucent" if "/" in token else "opaque"
+        signatures.setdefault("bg-black", set()).add(value)
+
+    return signatures
+
+
+def utility_family_conflicts(values_a: set[str], values_b: set[str], family: str) -> bool:
+    return bool(values_a & values_b)
+
+
+def utility_rules_conflict(rule_a: str, rule_b: str) -> bool:
+    signatures_a = extract_utility_signatures(rule_a)
+    signatures_b = extract_utility_signatures(rule_b)
+    for family in signatures_a.keys() & signatures_b.keys():
+        if utility_family_conflicts(signatures_a[family], signatures_b[family], family):
+            return True
+    return False
+
+
 def conflict_token_set(rule: str) -> set[str]:
     tokens = tokenize(rule)
     ignored = RULE_STOPWORDS | set(NEGATORS) | {"not", "no", "without", "non", "无", "非", "不"}
@@ -273,6 +313,8 @@ def conflict_token_set(rule: str) -> set[str]:
 def rules_conflict(rule_a: str, rule_b: str) -> bool:
     if rule_polarity(rule_a) == rule_polarity(rule_b):
         return False
+    if utility_rules_conflict(rule_a, rule_b):
+        return True
     a_tokens = conflict_token_set(rule_a)
     b_tokens = conflict_token_set(rule_b)
     if not a_tokens or not b_tokens:
