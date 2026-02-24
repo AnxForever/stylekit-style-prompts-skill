@@ -1,0 +1,45 @@
+{
+  "name": "@anxforever/stylekit-style-prompts-skill",
+  "version": "0.1.0",
+  "description": "Standalone StyleKit style-prompts skill installer for Codex and Claude.",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "stylekit-style-prompts-skill": "bin/stylekit-style-prompts-skill.js"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "RELEASE.md",
+    "LICENSE",
+    "agents/*.yaml",
+    "references/*.md",
+    "references/*.json",
+    "references/*.yml",
+    "scripts/*.py",
+    "scripts/*.sh",
+    "bin/stylekit-style-prompts-skill.js"
+  ],
+  "keywords": [
+    "skill",
+    "frontend",
+    "stylekit",
+    "codex",
+    "claude",
+    "prompt-engineering"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnxForever/stylekit-style-prompts-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AnxForever/stylekit-style-prompts-skill/issues"
+  },
+  "homepage": "https://github.com/AnxForever/stylekit-style-prompts-skill#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
