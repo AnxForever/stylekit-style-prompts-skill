@@ -17,6 +17,60 @@ SEARCH_SCRIPT = SCRIPT_DIR / "search_stylekit.py"
 BRIEF_SCRIPT = SCRIPT_DIR / "generate_brief.py"
 QA_SCRIPT = SCRIPT_DIR / "qa_prompt.py"
 
+PRODUCT_HINTS = {
+    "dashboard": ["dashboard", "admin", "panel", "console", "后台", "仪表盘", "控制台"],
+    "landing-page": ["landing", "hero", "marketing", "homepage", "落地页", "首页", "营销"],
+    "ecommerce": ["shop", "store", "ecommerce", "checkout", "商品", "电商", "购物", "支付"],
+    "docs": ["docs", "documentation", "guide", "manual", "文档", "说明", "手册"],
+    "portfolio": ["portfolio", "case study", "作品集", "案例"],
+}
+
+
+def infer_product_type(query: str) -> str:
+    text = (query or "").lower()
+    for product_type, keywords in PRODUCT_HINTS.items():
+        if any(keyword in text for keyword in keywords):
+            return product_type
+    return "general-web-product"
+
+
+def build_manual_assistant(
+    *,
+    query: str,
+    stack: str,
+    selected_style: str | None,
+    search_payload: dict[str, Any],
+    brief_payload: dict[str, Any],
+) -> dict[str, Any]:
+    design_brief = brief_payload.get("design_brief", {}) or {}
+    design_intent = design_brief.get("design_intent", {}) or {}
+    style_choice = design_brief.get("style_choice", {}) or {}
+
+    return {
+        "purpose": "Use this as a frontend design handbook context before generating code.",
+        "product_profile": {
+            "query": query,
+            "inferred_product_type": infer_product_type(query),
+            "stack": stack,
+            "purpose": design_intent.get("purpose"),
+            "audience": design_intent.get("audience"),
+            "tone": design_intent.get("tone"),
+        },
+        "style_recommendation": {
+            "selected_style": selected_style,
+            "primary": style_choice.get("primary", {}),
+            "alternatives": style_choice.get("alternatives", []),
+            "top_candidates": search_payload.get("candidates", [])[:5],
+        },
+        "implementation_handbook": {
+            "component_guidelines": design_brief.get("component_guidelines", []),
+            "interaction_rules": design_brief.get("interaction_rules", []),
+            "a11y_baseline": design_brief.get("a11y_baseline", []),
+            "anti_pattern_blacklist": design_brief.get("anti_pattern_blacklist", [])[:8],
+            "validation_tests": design_brief.get("validation_tests", []),
+        },
+    }
+
 
 def run_json_command(cmd: list[str]) -> dict[str, Any]:
     proc = subprocess.run(cmd, capture_output=True, text=True)
@@ -48,6 +102,8 @@ def to_markdown(payload: dict[str, Any]) -> str:
     lines = [
         "# StyleKit Pipeline Result",
         f"- Query: {payload['query']}",
+        f"- Workflow: {payload.get('workflow')}",
+        f"- Mode: {payload.get('mode')}",
         f"- Stack: {payload['stack']}",
         f"- Selected style: {payload['selected_style']}",
         f"- QA status: {payload['status']}",
@@ -88,18 +144,41 @@ def to_markdown(payload: dict[str, Any]) -> str:
             ]
         )
 
+    manual = payload.get("manual_assistant", {}) or {}
+    profile = manual.get("product_profile", {}) or {}
+    handbook = manual.get("implementation_handbook", {}) or {}
+    if manual:
+        lines.extend(
+            [
+                "",
+                "## Handbook Snapshot",
+                f"- Inferred product type: {profile.get('inferred_product_type', '')}",
+                f"- Purpose: {profile.get('purpose', '')}",
+                f"- Audience: {profile.get('audience', '')}",
+                f"- Tone: {profile.get('tone', '')}",
+                f"- Component guidelines: {len(handbook.get('component_guidelines', []))}",
+                f"- Interaction rules: {len(handbook.get('interaction_rules', []))}",
+            ]
+        )
+
     return "\n".join(lines)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run StyleKit full pipeline")
     parser.add_argument("--query", required=True, help="User requirement")
+    parser.add_argument(
+        "--workflow",
+        default="manual",
+        choices=["manual", "codegen"],
+        help="manual = handbook/knowledge mode, codegen = prompt-generation mode",
+    )
     parser.add_argument("--stack", default="html-tailwind", choices=["html-tailwind", "react", "nextjs", "vue", "svelte", "tailwind-v4"])
     parser.add_argument("--style", help="Force style slug")
     parser.add_argument("--style-type", choices=["visual", "layout", "animation"])
     parser.add_argument("--top", type=int, default=5)
-    parser.add_argument("--mode", default="brief+prompt", choices=["brief-only", "brief+prompt"])
-    parser.add_argument("--blend-mode", default="auto", choices=["off", "auto", "on"])
+    parser.add_argument("--mode", default=None, choices=["brief-only", "brief+prompt"])
+    parser.add_argument("--blend-mode", default=None, choices=["off", "auto", "on"])
     parser.add_argument(
         "--refine-mode",
         default="new",
@@ -115,6 +194,10 @@ def main() -> None:
     args = parser.parse_args()
 
     py = sys.executable
+    resolved_mode = args.mode or ("brief-only" if args.workflow == "manual" else "brief+prompt")
+    resolved_blend_mode = args.blend_mode or ("off" if args.workflow == "manual" else "auto")
+    if args.style and args.blend_mode is None:
+        resolved_blend_mode = "off"
 
     search_cmd = [py, str(SEARCH_SCRIPT), "--query", args.query, "--top", str(args.top), "--format", "json"]
     if args.style_type:
@@ -129,9 +212,9 @@ def main() -> None:
         "--stack",
         args.stack,
         "--mode",
-        args.mode,
+        resolved_mode,
         "--blend-mode",
-        args.blend_mode,
+        resolved_blend_mode,
         "--refine-mode",
         args.refine_mode,
         "--reference-type",
@@ -159,44 +242,69 @@ def main() -> None:
         brief_payload.get("design_brief", {}).get("input_context", {}).get("reference_payload_present")
     )
 
-    qa_input_text = brief_payload.get("hard_prompt") or brief_payload.get("soft_prompt")
-    if not qa_input_text:
-        qa_input_text = json.dumps(brief_payload, ensure_ascii=False)
+    qa_payload: dict[str, Any]
+    if resolved_mode == "brief+prompt":
+        qa_input_text = brief_payload.get("hard_prompt") or brief_payload.get("soft_prompt")
+        if not qa_input_text:
+            qa_input_text = json.dumps(brief_payload, ensure_ascii=False)
 
-    with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".txt", delete=False) as tmp:
-        tmp.write(qa_input_text)
-        tmp_path = tmp.name
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".txt", delete=False) as tmp:
+            tmp.write(qa_input_text)
+            tmp_path = tmp.name
 
-    try:
-        qa_cmd = [py, str(QA_SCRIPT), "--input", tmp_path, "--min-ai-rules", str(args.min_ai_rules)]
-        expected_lang = brief_payload.get("language")
-        if expected_lang in {"en", "zh"}:
-            qa_cmd.extend(["--lang", expected_lang])
-        qa_cmd.extend(["--require-refine-mode", args.refine_mode])
-        qa_cmd.extend(["--require-reference-type", resolved_reference_type])
-        if reference_payload_present:
-            qa_cmd.append("--require-reference-signals")
-        if selected_style:
-            qa_cmd.extend(["--style", selected_style])
-        qa_payload = run_json_command(qa_cmd)
-    finally:
         try:
-            os.remove(tmp_path)
-        except OSError:
-            pass
+            qa_cmd = [py, str(QA_SCRIPT), "--input", tmp_path, "--min-ai-rules", str(args.min_ai_rules)]
+            expected_lang = brief_payload.get("language")
+            if expected_lang in {"en", "zh"}:
+                qa_cmd.extend(["--lang", expected_lang])
+            qa_cmd.extend(["--require-refine-mode", args.refine_mode])
+            qa_cmd.extend(["--require-reference-type", resolved_reference_type])
+            if reference_payload_present:
+                qa_cmd.append("--require-reference-signals")
+            if selected_style:
+                qa_cmd.extend(["--style", selected_style])
+            qa_payload = run_json_command(qa_cmd)
+        finally:
+            try:
+                os.remove(tmp_path)
+            except OSError:
+                pass
+    else:
+        qa_payload = {
+            "status": "pass",
+            "violations": [],
+            "warnings": [
+                {
+                    "code": "QA_SKIPPED_BRIEF_ONLY",
+                    "message": "Prompt QA skipped in handbook mode (brief-only).",
+                }
+            ],
+            "checks": [],
+        }
+
+    manual_assistant = build_manual_assistant(
+        query=args.query,
+        stack=args.stack,
+        selected_style=selected_style,
+        search_payload=search_payload,
+        brief_payload=brief_payload,
+    )
 
     output = {
         "status": qa_payload.get("status"),
+        "workflow": args.workflow,
+        "mode": resolved_mode,
         "query": args.query,
         "stack": args.stack,
         "style_type_filter": args.style_type,
-        "blend_mode": args.blend_mode,
+        "blend_mode": resolved_blend_mode,
         "refine_mode": args.refine_mode,
         "reference_type": resolved_reference_type,
         "strict_reference_schema": args.strict_reference_schema,
         "selected_style": selected_style,
         "candidates": search_payload.get("candidates", []),
         "result": brief_payload,
+        "manual_assistant": manual_assistant,
         "quality_gate": qa_payload,
     }
 

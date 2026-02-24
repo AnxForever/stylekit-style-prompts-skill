@@ -11,29 +11,33 @@ Generate better-looking frontend output by combining StyleKit style identity, ac
 
 ## Quick One-shot Command
 
-Run full flow in one command:
+Run handbook mode in one command (default):
 
 `python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --format json`
 
+Run prompt-generation mode with QA gate:
+
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --format json`
+
 Force multi-style blend:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --blend-mode on --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --blend-mode on --format json`
 
 Run targeted refinement (polish/debug/contrast/layout/component-fill):
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --refine-mode debug --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --refine-mode debug --format json`
 
 Run with screenshot/Figma reference constraints:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --reference-type screenshot --reference-notes "<what to preserve/fix>" --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --reference-type screenshot --reference-notes "<what to preserve/fix>" --format json`
 
 Run with structured reference payload:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --format json`
 
 Run strict schema mode for reference payload:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --strict-reference-schema --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --strict-reference-schema --format json`
 
 Benchmark current quality:
 
