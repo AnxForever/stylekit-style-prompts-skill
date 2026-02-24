@@ -1,0 +1,26 @@
+{
+  "summary": {
+    "pass_rate": 1.0,
+    "check_pass_rate": {
+      "rule_conflict": 1.0,
+      "language_consistency": 1.0,
+      "refinement_mode_alignment": 1.0,
+      "reference_context_guard": 1.0
+    },
+    "bucket_pass_rate": {
+      "balanced": {
+        "pass_rate": 1.0
+      },
+      "expressive": {
+        "pass_rate": 1.0
+      },
+      "strict-domain": {
+        "pass_rate": 1.0
+      }
+    }
+  },
+  "meta": {
+    "generated_at": "2026-02-24T09:03:28Z",
+    "notes": "Initial baseline for CI regression gate."
+  }
+}

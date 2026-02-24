@@ -1,0 +1,4 @@
+interface:
+  display_name: "StyleKit Prompt Skill"
+  short_description: "Generate beautiful StyleKit prompts with quality gates."
+  default_prompt: "Find the best matching StyleKit style, output a design brief and hard/soft prompts, then run quality checks."
