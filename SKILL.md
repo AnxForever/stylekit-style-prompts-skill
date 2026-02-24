@@ -11,29 +11,33 @@ Generate better-looking frontend output by combining StyleKit style identity, ac
 
 ## Quick One-shot Command
 
-Run full flow in one command:
+Run handbook mode in one command (default):
 
 `python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --format json`
 
+Run prompt-generation mode with QA gate:
+
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --format json`
+
 Force multi-style blend:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --blend-mode on --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --blend-mode on --format json`
 
 Run targeted refinement (polish/debug/contrast/layout/component-fill):
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --refine-mode debug --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --refine-mode debug --format json`
 
 Run with screenshot/Figma reference constraints:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --reference-type screenshot --reference-notes "<what to preserve/fix>" --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --reference-type screenshot --reference-notes "<what to preserve/fix>" --format json`
 
 Run with structured reference payload:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --format json`
 
 Run strict schema mode for reference payload:
 
-`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --strict-reference-schema --format json`
+`python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --reference-type screenshot --reference-file refs/screen-analysis.json --strict-reference-schema --format json`
 
 Benchmark current quality:
 
@@ -74,6 +78,17 @@ CI one-command gate:
 8. For high-confidence pipelines, enable strict schema mode:
    `python scripts/generate_brief.py --query "<requirement>" --stack nextjs --mode brief+prompt --reference-file refs/screen-analysis.json --strict-reference-schema`
 9. If quality gate fails, run audit + fix workflow.
+
+## Workflow 1.5: Novice Decision Assist (Recommended)
+
+1. User only provides a high-level goal (example: "I want to build a blog").
+2. Run handbook mode:
+   `python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --format json`
+3. Read `manual_assistant.decision_assistant.recommended_style_options` and explain 3-4 options with trade-offs.
+4. Ask `manual_assistant.decision_assistant.decision_questions` to help user pick direction.
+5. After user selects one option, run codegen mode with forced style:
+   `python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --style <slug> --blend-mode off --format json`
+6. Follow `references/cc-decision-conversation-template.md` for a turn-by-turn assistant script.
 
 ## Workflow 2: Existing Prompt -> Quality Audit -> Fix Suggestions
 
@@ -149,6 +164,7 @@ If stack is unknown, fallback to framework-agnostic Tailwind semantics.
 - `references/frontend-design-principles.md`: distinctiveness and anti-generic design heuristics.
 - `references/design-system-patterns.md`: token hierarchy and component architecture.
 - `references/accessibility-gate.md`: WCAG + mobile touch baseline for prompt quality.
+- `references/cc-decision-conversation-template.md`: assistant dialogue template for novice user decision flow.
 - `scripts/refresh-style-prompts.sh`: rebuild style dataset from local repo.
 - `scripts/search_stylekit.py`: query -> ranked style candidates.
 - `scripts/generate_brief.py`: query -> design brief + prompts.

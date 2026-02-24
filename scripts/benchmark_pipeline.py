@@ -123,6 +123,8 @@ def run_case(py: str, query: str, stack: str, blend_mode: str, bucket: str, refi
     cmd = [
         py,
         str(PIPELINE_SCRIPT),
+        "--workflow",
+        "codegen",
         "--query",
         query,
         "--stack",

@@ -51,7 +51,14 @@ node bin/stylekit-style-prompts-skill.js uninstall --target /tmp/stylekit-skill-
 python3 scripts/audit_style_rule_conflicts.py --format text
 python3 scripts/smoke_test.py
 python3 scripts/run_pipeline.py --query "高端科技SaaS财务后台，玻璃质感，强调可读性" --stack nextjs --format json
+python3 scripts/run_pipeline.py --workflow codegen --query "高端科技SaaS财务后台，玻璃质感，强调可读性" --stack nextjs --format json
 ```
+
+说明：
+- 默认是 `--workflow manual`（手册/知识库模式）：输出设计简报 + 手册化建议，不强制走 prompt QA。
+- 若要生成并严格审查 prompt，请显式加 `--workflow codegen`。
+- 在 manual 模式下，会额外输出 `manual_assistant.decision_assistant`，包含：候选风格卡片、给新手的引导问题、以及用户选定风格后的下一步命令模板。
+- 可直接复用对话模板：`references/cc-decision-conversation-template.md`。
 
 ## 3) 回归门禁
 
