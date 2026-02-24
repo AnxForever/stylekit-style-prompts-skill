@@ -215,6 +215,28 @@ A11Y_BASELINE = {
 }
 
 NEGATOR_WORDS = ["avoid", "don't", "do not", "禁止", "不要", "避免", "严禁"]
+NEG_SECTION_MARKERS = [
+    "绝对禁止",
+    "禁止使用",
+    "禁止",
+    "must avoid",
+    "must not",
+    "forbidden",
+    "absolutely forbidden",
+    "do not",
+]
+POS_SECTION_MARKERS = [
+    "必须遵守",
+    "必须使用",
+    "必须",
+    "must follow",
+    "must use",
+    "required",
+]
+RADIUS_TOKEN_RE = re.compile(r"\brounded(?:-[a-z0-9]+)?\b", re.IGNORECASE)
+SHADOW_TOKEN_RE = re.compile(r"\bshadow(?:-[a-z0-9\[\]_/.-]+)?\b", re.IGNORECASE)
+BG_WHITE_TOKEN_RE = re.compile(r"\bbg-white(?:/[0-9]{1,3})?\b", re.IGNORECASE)
+BG_BLACK_TOKEN_RE = re.compile(r"\bbg-black(?:/[0-9]{1,3})?\b", re.IGNORECASE)
 RULE_STOPWORDS = {
     "use",
     "using",
@@ -361,6 +383,120 @@ def has_cjk(text: str) -> bool:
     return bool(CJK_RE.search(text or ""))
 
 
+def section_polarity_from_heading(line: str) -> str | None:
+    text = str(line or "").strip()
+    if not text:
+        return None
+    if not text.startswith("#"):
+        return None
+
+    normalized = re.sub(r"^[#\s]+", "", text).lower()
+    if any(marker in normalized for marker in NEG_SECTION_MARKERS):
+        return "neg"
+    if any(marker in normalized for marker in POS_SECTION_MARKERS):
+        return "pos"
+    return None
+
+
+def to_negative_rule(rule: str, lang: str) -> str:
+    text = str(rule or "").strip()
+    if not text:
+        return text
+    if any(word in text.lower() for word in NEGATOR_WORDS):
+        return text
+    if lang == "zh":
+        return f"禁止{text}"
+    if text[0].isupper():
+        return f"Do not {text[0].lower()}{text[1:]}"
+    return f"Do not {text}"
+
+
+def extract_utility_signatures(rule: str) -> dict[str, set[str]]:
+    low = str(rule or "").lower()
+    signatures: dict[str, set[str]] = {}
+
+    for token in RADIUS_TOKEN_RE.findall(low):
+        value = token.split("-", 1)[1] if "-" in token else "base"
+        signatures.setdefault("radius", set()).add(value)
+
+    for token in SHADOW_TOKEN_RE.findall(low):
+        value = token.split("-", 1)[1] if "-" in token else "base"
+        signatures.setdefault("shadow", set()).add(value)
+
+    for token in BG_WHITE_TOKEN_RE.findall(low):
+        value = "translucent" if "/" in token else "opaque"
+        signatures.setdefault("bg-white", set()).add(value)
+
+    for token in BG_BLACK_TOKEN_RE.findall(low):
+        value = "translucent" if "/" in token else "opaque"
+        signatures.setdefault("bg-black", set()).add(value)
+
+    return signatures
+
+
+def utility_family_conflicts(values_a: set[str], values_b: set[str], family: str) -> bool:
+    # Opposite polarity is required by caller; treat only same-value collisions as conflicts.
+    # This allows valid pairs like "禁止 rounded-none" + "使用 rounded-xl".
+    return bool(values_a & values_b)
+
+
+def utility_rules_conflict(rule_a: str, rule_b: str) -> bool:
+    signatures_a = extract_utility_signatures(rule_a)
+    signatures_b = extract_utility_signatures(rule_b)
+    for family in signatures_a.keys() & signatures_b.keys():
+        if utility_family_conflicts(signatures_a[family], signatures_b[family], family):
+            return True
+    return False
+
+
+def has_internal_family_conflict(values: set[str], family: str) -> bool:
+    if family in {"radius", "shadow"}:
+        return "none" in values and any(v != "none" for v in values)
+    if family in {"bg-white", "bg-black"}:
+        return "opaque" in values and "translucent" in values
+    return False
+
+
+def has_internal_utility_conflict(rule: str) -> bool:
+    signatures = extract_utility_signatures(rule)
+    for family, values in signatures.items():
+        if has_internal_family_conflict(values, family):
+            return True
+    return False
+
+
+def rewrite_ambiguous_positive_rule(rule: str, lang: str) -> str:
+    if is_negative_rule(rule):
+        return rule
+    signatures = extract_utility_signatures(rule)
+    radius_values = signatures.get("radius", set())
+    shadow_values = signatures.get("shadow", set())
+    bg_white_values = signatures.get("bg-white", set())
+    bg_black_values = signatures.get("bg-black", set())
+
+    if has_internal_family_conflict(radius_values, "radius"):
+        return (
+            "圆角策略保持一致，禁止在同一界面混用直角和大圆角。"
+            if lang == "zh"
+            else "Keep one consistent corner strategy; do not mix sharp and rounded corners in the same screen."
+        )
+    if has_internal_family_conflict(shadow_values, "shadow"):
+        return (
+            "阴影策略保持一致，避免同时要求无阴影和重阴影。"
+            if lang == "zh"
+            else "Keep one consistent shadow strategy; avoid mixing no-shadow and heavy-shadow directives."
+        )
+    if has_internal_family_conflict(bg_white_values, "bg-white") or has_internal_family_conflict(
+        bg_black_values, "bg-black"
+    ):
+        return (
+            "背景不透明度策略保持一致，避免同时要求纯色不透明与半透明。"
+            if lang == "zh"
+            else "Keep background opacity strategy consistent; avoid mixing opaque and translucent directives."
+        )
+    return rule
+
+
 def dedupe_ordered(items: list[str]) -> list[str]:
     out: list[str] = []
     seen: set[str] = set()
@@ -394,6 +530,8 @@ def conflict_token_set(rule: str) -> set[str]:
 def rule_conflicts(rule_a: str, rule_b: str) -> bool:
     if rule_polarity(rule_a) == rule_polarity(rule_b):
         return False
+    if utility_rules_conflict(rule_a, rule_b):
+        return True
     a_tokens = conflict_token_set(rule_a)
     b_tokens = conflict_token_set(rule_b)
     if not a_tokens or not b_tokens:
@@ -962,16 +1100,25 @@ def conflicts_with_dont(rule: str, dont_list: list[str]) -> bool:
     return False
 
 
-def extract_rules(ai_rules_text: str) -> list[str]:
+def extract_rules(ai_rules_text: str, lang: str) -> list[str]:
     lines = []
+    section_polarity: str | None = None
+
     for raw in str(ai_rules_text or "").splitlines():
-        line = raw.strip()
-        if not line:
+        raw_line = raw.strip()
+        if not raw_line:
             continue
-        line = re.sub(r"^[-*]\s+", "", line)
+
+        heading_polarity = section_polarity_from_heading(raw_line)
+        if heading_polarity:
+            section_polarity = heading_polarity
+            continue
+
+        line = re.sub(r"^[-*]\s+", "", raw_line)
         line = re.sub(r"^\d+\.\s+", "", line)
         if len(line) < 8:
             continue
+
         low = line.lower()
         if line.startswith("#"):
             continue
@@ -979,6 +1126,11 @@ def extract_rules(ai_rules_text: str) -> list[str]:
             continue
         if "生成的所有代码必须" in line or "all code must" in low:
             continue
+
+        # Treat bullets inside forbidden sections as negative constraints.
+        if section_polarity == "neg":
+            line = to_negative_rule(line, lang)
+
         lines.append(line)
 
     deduped = []
@@ -1121,6 +1273,9 @@ def ensure_min_rules(base_rules: list[str], do_list: list[str], dont_list: list[
     out = []
     for rule in base_rules:
         normalized = normalize_rule(rule, dont_list, lang)
+        normalized = rewrite_ambiguous_positive_rule(normalized, lang)
+        if has_internal_utility_conflict(normalized):
+            continue
         if conflicts_with_dont(normalized, dont_list):
             continue
         out.append(normalized)
@@ -1128,8 +1283,15 @@ def ensure_min_rules(base_rules: list[str], do_list: list[str], dont_list: list[
     for item in do_list:
         if len(out) >= 6:
             break
-        if item not in out:
-            out.append(item)
+        if is_negative_rule(item):
+            continue
+        normalized_item = rewrite_ambiguous_positive_rule(item, lang)
+        if has_internal_utility_conflict(normalized_item):
+            continue
+        if conflicts_with_dont(normalized_item, dont_list):
+            continue
+        if normalized_item not in out:
+            out.append(normalized_item)
 
     if len(out) < 3:
         defaults = (
@@ -1557,7 +1719,7 @@ def main() -> None:
         lang=lang,
     )
 
-    base_rules = extract_rules(primary.get("aiRules", ""))
+    base_rules = extract_rules(primary.get("aiRules", ""), lang)
     base_rules.extend(reference_signals.get("derived_rules", []))
     ai_rules = ensure_min_rules(base_rules, primary.get("doList", []), primary.get("dontList", []), lang)
     ai_rules = resolve_rule_conflicts(ai_rules, lang)
