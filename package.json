@@ -1,24 +1,26 @@
 {
-  "name": "@anxforever/stylekit-style-prompts-skill",
-  "version": "0.1.1",
-  "description": "Standalone StyleKit style-prompts skill installer for Codex and Claude.",
+  "name": "@anxforever/stylekit-skill",
+  "version": "0.2.0",
+  "description": "Standalone StyleKit skill installer for Codex and Claude.",
   "license": "MIT",
   "type": "commonjs",
   "bin": {
-    "stylekit-style-prompts-skill": "bin/stylekit-style-prompts-skill.js"
+    "stylekit-skill": "bin/stylekit-skill.js"
   },
   "files": [
     "SKILL.md",
     "README.md",
     "RELEASE.md",
+    "GO_LIVE_CHECKLIST.md",
     "LICENSE",
     "agents/*.yaml",
     "references/*.md",
     "references/*.json",
     "references/*.yml",
+    "references/taxonomy/*.json",
     "scripts/*.py",
     "scripts/*.sh",
-    "bin/stylekit-style-prompts-skill.js"
+    "bin/stylekit-skill.js"
   ],
   "keywords": [
     "skill",
@@ -30,12 +32,22 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnxForever/stylekit-style-prompts-skill.git"
+    "url": "git+https://github.com/AnxForever/stylekit-skill.git"
   },
   "bugs": {
-    "url": "https://github.com/AnxForever/stylekit-style-prompts-skill/issues"
+    "url": "https://github.com/AnxForever/stylekit-skill/issues"
   },
-  "homepage": "https://github.com/AnxForever/stylekit-style-prompts-skill#readme",
+  "homepage": "https://github.com/AnxForever/stylekit-skill#readme",
+  "scripts": {
+    "doctor": "node bin/stylekit-skill.js doctor",
+    "smoke": "python3 scripts/smoke_test.py",
+    "test:unit": "pytest tests/ -m \"not slow\" -q",
+    "test:slow": "pytest tests/ -m slow -q",
+    "check:taxonomy": "python3 scripts/validate_taxonomy.py --format text --max-unused-style-tags 0 --fail-on-warning",
+    "check:contract": "python3 scripts/validate_output_contract_sync.py --format text --fail-on-warning",
+    "check:gate": "bash scripts/ci_regression_gate.sh --baseline references/benchmark-baseline.json --snapshot-out tmp/benchmark-ci-latest.json",
+    "prepublishOnly": "node bin/stylekit-skill.js doctor && python3 scripts/validate_taxonomy.py --format text --max-unused-style-tags 0 --fail-on-warning && python3 scripts/validate_output_contract_sync.py --format text --fail-on-warning && python3 scripts/smoke_test.py"
+  },
   "engines": {
     "node": ">=18"
   },

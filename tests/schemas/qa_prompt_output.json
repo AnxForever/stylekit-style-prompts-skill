@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qa_prompt_output.json",
+  "title": "qa_prompt.py output",
+  "type": "object",
+  "required": [
+    "status",
+    "checks",
+    "violations",
+    "autofix_suggestions",
+    "meta"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["pass", "fail"]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "passed", "message"],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "violations": { "type": "array" },
+    "autofix_suggestions": { "type": "array" },
+    "meta": {
+      "type": "object",
+      "required": [
+        "style",
+        "expected_lang",
+        "min_ai_rules",
+        "prompt_length"
+      ],
+      "properties": {
+        "style": { "type": ["string", "null"] },
+        "expected_lang": { "type": "string" },
+        "min_ai_rules": { "type": "integer" },
+        "prompt_length": { "type": "integer" }
+      }
+    }
+  }
+}

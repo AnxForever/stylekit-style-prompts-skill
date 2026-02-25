@@ -1,6 +1,7 @@
 # Release Process
 
 This repository uses benchmark regression gates to keep skill quality stable.
+For full release readiness gates, also run `GO_LIVE_CHECKLIST.md`.
 
 ## 1) Pre-release Checks
 

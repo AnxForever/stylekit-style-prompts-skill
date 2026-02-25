@@ -1,0 +1,2101 @@
+{
+  "schemaVersion": "2.0.0",
+  "description": "Style-specific v2 tag mapping overrides. When a style is not listed, scripts fall back to heuristic mapping from styleType/category/tags.",
+  "style_mappings": {
+    "neo-brutalist": {
+      "visual_style": "expressive",
+      "motion_profile_hints": [
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "editorial": {
+      "visual_style": "editorial",
+      "layout_archetype_hints": [
+        "article-first",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "readability-first",
+        "editorial-tone"
+      ]
+    },
+    "neumorphism": {
+      "visual_style": "modern-tech",
+      "motion_profile_hints": [
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "minimal-chrome"
+      ]
+    },
+    "glassmorphism": {
+      "visual_style": "modern-tech",
+      "motion_profile_hints": [
+        "smooth",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative",
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "premium-tone",
+        "brand-heavy"
+      ]
+    },
+    "bento-grid": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "dense-information"
+      ]
+    },
+    "dashboard-layout": {
+      "visual_style": "corporate",
+      "layout_archetype_hints": [
+        "kpi-console",
+        "doc-sidebar"
+      ],
+      "motion_profile_hints": [
+        "minimal",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "data-dense-feedback"
+      ],
+      "modifiers": [
+        "readability-first",
+        "dense-information",
+        "trust-first"
+      ]
+    },
+    "apple-style": {
+      "visual_style": "minimal",
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "minimal-chrome",
+        "premium-tone"
+      ]
+    },
+    "material-design": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided",
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "trust-first"
+      ]
+    },
+    "vaporwave": {
+      "visual_style": "retro",
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy",
+        "playful-tone"
+      ]
+    },
+    "corporate-clean": {
+      "visual_style": "corporate",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "minimal",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "conversion-focused",
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "trust-first",
+        "readability-first",
+        "minimal-chrome"
+      ]
+    },
+    "minimalist-flat": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "minimal-chrome",
+        "readability-first"
+      ]
+    },
+    "natural-organic": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone"
+      ]
+    },
+    "notion-style": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "doc-sidebar",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "docs-navigation",
+        "content-reading"
+      ],
+      "modifiers": [
+        "readability-first",
+        "minimal-chrome",
+        "dense-information"
+      ]
+    },
+    "japanese-fresh": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "minimal-chrome",
+        "premium-tone"
+      ]
+    },
+    "scandinavian": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "minimal-chrome",
+        "readability-first"
+      ]
+    },
+    "wabi-sabi": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "minimal-chrome"
+      ]
+    },
+    "zen-garden": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "minimal-chrome",
+        "premium-tone"
+      ]
+    },
+    "kawaii-minimal": {
+      "visual_style": "playful",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "minimal-chrome"
+      ]
+    },
+    "terracotta": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "monochrome": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "minimal-chrome"
+      ]
+    },
+    "ink-wash": {
+      "visual_style": "editorial",
+      "layout_archetype_hints": [
+        "article-first",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "korean-minimal": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "minimal-chrome",
+        "readability-first"
+      ]
+    },
+    "blueprint": {
+      "visual_style": "corporate",
+      "layout_archetype_hints": [
+        "kpi-console",
+        "doc-sidebar"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "data-dense-feedback",
+        "docs-navigation"
+      ],
+      "modifiers": [
+        "dense-information",
+        "readability-first"
+      ]
+    },
+    "timeline-vertical": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "timeline-flow"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "readability-first"
+      ]
+    },
+    "soft-ui": {
+      "visual_style": "modern-tech",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "minimal-chrome",
+        "premium-tone"
+      ]
+    },
+    "dark-mode": {
+      "visual_style": "modern-tech",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "kpi-console"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided",
+        "data-dense-feedback"
+      ],
+      "modifiers": [
+        "readability-first"
+      ]
+    },
+    "claymorphism": {
+      "visual_style": "playful",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "playful-tone"
+      ]
+    },
+    "stripe-style": {
+      "visual_style": "modern-tech",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "conversion-focused",
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "trust-first",
+        "premium-tone",
+        "minimal-chrome"
+      ]
+    },
+    "bauhaus": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "high-contrast"
+      ]
+    },
+    "swiss-style": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "minimal",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "readability-first",
+        "editorial-tone"
+      ]
+    },
+    "fluent-design": {
+      "visual_style": "modern-tech",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "minimal-chrome"
+      ]
+    },
+    "visual-novel": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "hero-driven"
+      ]
+    },
+    "warm-dashboard": {
+      "visual_style": "corporate",
+      "layout_archetype_hints": [
+        "kpi-console",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "data-dense-feedback"
+      ],
+      "modifiers": [
+        "readability-first",
+        "dense-information"
+      ]
+    },
+    "liquid-glass": {
+      "visual_style": "modern-tech",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative",
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "premium-tone"
+      ]
+    },
+    "sci-fi-hud": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "kpi-console",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "data-dense-feedback"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "particle": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "hero-driven",
+        "brand-heavy"
+      ]
+    },
+    "marble-luxury": {
+      "visual_style": "corporate",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "premium-tone",
+        "brand-heavy"
+      ]
+    },
+    "tropical-paradise": {
+      "visual_style": "playful",
+      "layout_archetype_hints": [
+        "split-hero",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "hero-driven"
+      ]
+    },
+    "github-style": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "doc-sidebar",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "docs-navigation",
+        "content-reading"
+      ],
+      "modifiers": [
+        "readability-first",
+        "dense-information",
+        "minimal-chrome"
+      ]
+    },
+    "neon-tokyo": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "retro-vintage": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "brand-heavy"
+      ]
+    },
+    "pixel-art": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "minimal",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "brand-heavy"
+      ]
+    },
+    "y2k": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "brand-heavy",
+        "high-contrast"
+      ]
+    },
+    "memphis": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "art-deco": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative",
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "premium-tone",
+        "brand-heavy"
+      ]
+    },
+    "skeuomorphism": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "brand-heavy"
+      ]
+    },
+    "synthwave": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "ukiyo-e-digital": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "brand-heavy",
+        "premium-tone"
+      ]
+    },
+    "gothic": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "high-contrast"
+      ]
+    },
+    "outrun": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "dark-academia": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "article-first",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "cottagecore": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "playful-tone"
+      ]
+    },
+    "pixel-anime": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "brand-heavy"
+      ]
+    },
+    "film-noir": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "split-hero",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "premium-tone"
+      ]
+    },
+    "arcade-crt": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "high-contrast"
+      ]
+    },
+    "frutiger-aero": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "playful-tone"
+      ]
+    },
+    "brutalist-web": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "vhs-aesthetic": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy"
+      ]
+    },
+    "mid-century-modern": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "constructivism": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "minimal",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "medieval-manuscript": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "article-first",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "brand-heavy"
+      ]
+    },
+    "victorian-botanical": {
+      "visual_style": "retro",
+      "layout_archetype_hints": [
+        "article-first",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "modern-gradient": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "conversion-focused",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "hero-driven",
+        "brand-heavy"
+      ]
+    },
+    "geometric-bold": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "ghibli-style": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "editorial-tone"
+      ]
+    },
+    "comic-style": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "brand-heavy"
+      ]
+    },
+    "sketch-style": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "playful-tone"
+      ]
+    },
+    "watercolor-style": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "cyberpunk-neon": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "kpi-console"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative",
+        "data-dense-feedback"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "neo-brutalist-soft": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "brand-heavy"
+      ]
+    },
+    "neo-brutalist-playful": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "surrealism": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "hero-driven"
+      ]
+    },
+    "risograph": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "editorial-tone"
+      ]
+    },
+    "mecha": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "gothic-lolita": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "premium-tone"
+      ]
+    },
+    "cyber-chinese": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "acid-graphics": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "showcase-masonry",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "hand-drawn-doodle": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "editorial-tone"
+      ]
+    },
+    "watercolor-art": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "impressionist-oil": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone",
+        "premium-tone"
+      ]
+    },
+    "collage-art": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "showcase-masonry",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "playful-tone"
+      ]
+    },
+    "glitch-art": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "shoujo-manga": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "brand-heavy"
+      ]
+    },
+    "cyber-anime": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "neon-samurai": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "magic-circle": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "premium-tone"
+      ]
+    },
+    "cyber-wafuu": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy",
+        "premium-tone"
+      ]
+    },
+    "steampunk": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "premium-tone"
+      ]
+    },
+    "pop-art": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "playful-tone",
+        "brand-heavy"
+      ]
+    },
+    "solarpunk": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "editorial-tone"
+      ]
+    },
+    "jrpg": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "playful-tone"
+      ]
+    },
+    "neon-gradient": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "conversion-focused",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "hero-driven",
+        "brand-heavy"
+      ]
+    },
+    "cel-shading": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "playful-tone"
+      ]
+    },
+    "anti-design": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "holographic": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "premium-tone",
+        "brand-heavy"
+      ]
+    },
+    "generative-art": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "showcase-masonry",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy"
+      ]
+    },
+    "op-art": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "islamic-geometric": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "premium-tone"
+      ]
+    },
+    "indian-festive": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "playful-tone"
+      ]
+    },
+    "african-textile": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "editorial-tone"
+      ]
+    },
+    "pastel-goth": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy"
+      ]
+    },
+    "maximalism": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "showcase-masonry",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "energetic",
+        "cinematic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "high-contrast"
+      ]
+    },
+    "graffiti-street": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "showcase-masonry",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "high-contrast",
+        "brand-heavy"
+      ]
+    },
+    "cubism": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "high-contrast"
+      ]
+    },
+    "witchcore": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "premium-tone"
+      ]
+    },
+    "paper-craft": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "playful-tone",
+        "editorial-tone"
+      ]
+    },
+    "masonry-flow": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ]
+    },
+    "split-screen": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative",
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "hero-driven"
+      ]
+    },
+    "sidebar-fixed": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "doc-sidebar"
+      ],
+      "motion_profile_hints": [
+        "minimal"
+      ],
+      "interaction_pattern_hints": [
+        "docs-navigation",
+        "data-dense-feedback"
+      ],
+      "modifiers": [
+        "dense-information"
+      ]
+    },
+    "magazine-grid": {
+      "visual_style": "editorial",
+      "layout_archetype_hints": [
+        "showcase-masonry",
+        "article-first"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "editorial-tone"
+      ]
+    },
+    "f-pattern-layout": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading",
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "readability-first"
+      ]
+    },
+    "z-pattern-layout": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "subtle",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "conversion-focused"
+      ],
+      "modifiers": [
+        "hero-driven"
+      ]
+    },
+    "holy-grail-layout": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "doc-sidebar"
+      ],
+      "motion_profile_hints": [
+        "minimal",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ],
+      "modifiers": [
+        "readability-first"
+      ]
+    },
+    "asymmetric-grid": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "showcase-masonry",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy"
+      ]
+    },
+    "parallax-sections": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "hero-driven"
+      ]
+    },
+    "full-page-scroll": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "energetic"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "hero-driven"
+      ]
+    },
+    "card-stack": {
+      "visual_style": "balanced",
+      "layout_archetype_hints": [
+        "feature-grid",
+        "showcase-masonry"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "assistant-guided"
+      ]
+    },
+    "hero-fullscreen": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "cinematic",
+        "smooth"
+      ],
+      "interaction_pattern_hints": [
+        "conversion-focused",
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "hero-driven",
+        "brand-heavy"
+      ]
+    },
+    "art-nouveau": {
+      "visual_style": "expressive",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "split-hero"
+      ],
+      "motion_profile_hints": [
+        "smooth",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "showcase-narrative"
+      ],
+      "modifiers": [
+        "brand-heavy",
+        "premium-tone",
+        "editorial-tone"
+      ]
+    },
+    "swiss-poster": {
+      "visual_style": "minimal",
+      "layout_archetype_hints": [
+        "balanced-sections",
+        "feature-grid"
+      ],
+      "motion_profile_hints": [
+        "minimal",
+        "subtle"
+      ],
+      "interaction_pattern_hints": [
+        "content-reading"
+      ],
+      "modifiers": [
+        "readability-first",
+        "high-contrast"
+      ]
+    }
+  }
+}

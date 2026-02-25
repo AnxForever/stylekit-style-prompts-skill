@@ -1,0 +1,433 @@
+{
+  "schemaVersion": "2.0.0",
+  "site_types": {
+    "blog": {
+      "preferred_layout_archetypes": [
+        "article-first",
+        "timeline-flow",
+        "balanced-sections"
+      ],
+      "preferred_motion_profiles": [
+        "subtle",
+        "minimal",
+        "smooth",
+        "ambient"
+      ],
+      "preferred_interaction_patterns": [
+        "content-reading",
+        "assistant-guided",
+        "search-explore"
+      ],
+      "favored_style_tags": [
+        "editorial",
+        "minimal",
+        "readable",
+        "typography"
+      ],
+      "penalized_style_tags": [
+        "high-contrast",
+        "glitch",
+        "neon"
+      ],
+      "default_modules": [
+        "hero",
+        "article-list",
+        "featured-post",
+        "author-card",
+        "newsletter"
+      ],
+      "optional_modules": [
+        "related-posts",
+        "comments",
+        "reading-progress"
+      ],
+      "recommended_animation_profiles": [
+        "subtle-fade",
+        "subtle-slide",
+        "subtle-scale",
+        "ambient-drift"
+      ],
+      "recommended_interaction_patterns": [
+        "content-reading",
+        "search-explore"
+      ]
+    },
+    "saas": {
+      "preferred_layout_archetypes": [
+        "feature-grid",
+        "balanced-sections",
+        "form-centric"
+      ],
+      "preferred_motion_profiles": [
+        "subtle",
+        "smooth",
+        "functional"
+      ],
+      "preferred_interaction_patterns": [
+        "assistant-guided",
+        "conversion-focused",
+        "data-dense-feedback",
+        "form-wizard",
+        "search-explore",
+        "notification-center"
+      ],
+      "favored_style_tags": [
+        "modern",
+        "minimal",
+        "professional",
+        "trust",
+        "dashboard"
+      ],
+      "penalized_style_tags": [
+        "chaotic",
+        "glitch"
+      ],
+      "default_modules": [
+        "hero",
+        "feature-grid",
+        "pricing",
+        "social-proof",
+        "faq",
+        "cta-band"
+      ],
+      "optional_modules": [
+        "integration-logos",
+        "case-study",
+        "onboarding-flow"
+      ],
+      "recommended_animation_profiles": [
+        "subtle-fade",
+        "smooth-morph",
+        "smooth-spring",
+        "energetic-pulse",
+        "functional-spinner",
+        "functional-progress"
+      ],
+      "recommended_interaction_patterns": [
+        "conversion-focused",
+        "assistant-guided",
+        "data-dense-feedback",
+        "form-wizard",
+        "search-explore",
+        "notification-center"
+      ]
+    },
+    "dashboard": {
+      "preferred_layout_archetypes": [
+        "kpi-console",
+        "doc-sidebar",
+        "balanced-sections"
+      ],
+      "preferred_motion_profiles": [
+        "minimal",
+        "subtle",
+        "functional"
+      ],
+      "preferred_interaction_patterns": [
+        "data-dense-feedback",
+        "assistant-guided",
+        "notification-center"
+      ],
+      "favored_style_tags": [
+        "dashboard",
+        "data",
+        "readable",
+        "enterprise",
+        "clean"
+      ],
+      "penalized_style_tags": [
+        "playful",
+        "ornamental",
+        "glitch"
+      ],
+      "default_modules": [
+        "sidebar-nav",
+        "kpi-cards",
+        "chart-grid",
+        "table",
+        "filters",
+        "alert-strip"
+      ],
+      "optional_modules": [
+        "activity-feed",
+        "empty-state",
+        "drill-down-panel"
+      ],
+      "recommended_animation_profiles": [
+        "minimal-static",
+        "minimal-functional",
+        "minimal-skeleton",
+        "functional-spinner",
+        "functional-progress"
+      ],
+      "recommended_interaction_patterns": [
+        "data-dense-feedback",
+        "notification-center"
+      ]
+    },
+    "docs": {
+      "preferred_layout_archetypes": [
+        "doc-sidebar",
+        "article-first",
+        "balanced-sections"
+      ],
+      "preferred_motion_profiles": [
+        "minimal",
+        "subtle",
+        "functional"
+      ],
+      "preferred_interaction_patterns": [
+        "docs-navigation",
+        "content-reading",
+        "search-explore"
+      ],
+      "favored_style_tags": [
+        "minimal",
+        "readable",
+        "documentation",
+        "neutral"
+      ],
+      "penalized_style_tags": [
+        "high-contrast",
+        "excessive-motion",
+        "visual-noise"
+      ],
+      "default_modules": [
+        "sidebar-toc",
+        "search",
+        "article-body",
+        "code-block",
+        "pagination"
+      ],
+      "optional_modules": [
+        "version-switcher",
+        "feedback-widget",
+        "copy-link"
+      ],
+      "recommended_animation_profiles": [
+        "minimal-static",
+        "minimal-functional",
+        "functional-progress"
+      ],
+      "recommended_interaction_patterns": [
+        "docs-navigation",
+        "content-reading",
+        "search-explore"
+      ]
+    },
+    "ecommerce": {
+      "preferred_layout_archetypes": [
+        "catalog-conversion",
+        "feature-grid",
+        "form-centric"
+      ],
+      "preferred_motion_profiles": [
+        "smooth",
+        "subtle",
+        "playful",
+        "functional"
+      ],
+      "preferred_interaction_patterns": [
+        "conversion-focused",
+        "assistant-guided",
+        "form-wizard",
+        "search-explore",
+        "notification-center"
+      ],
+      "favored_style_tags": [
+        "product",
+        "conversion",
+        "clean",
+        "premium"
+      ],
+      "penalized_style_tags": [
+        "dense-information",
+        "low-contrast"
+      ],
+      "default_modules": [
+        "product-gallery",
+        "price-card",
+        "variant-picker",
+        "reviews",
+        "upsell",
+        "sticky-cta"
+      ],
+      "optional_modules": [
+        "shipping-info",
+        "trust-badges",
+        "faq"
+      ],
+      "recommended_animation_profiles": [
+        "smooth-morph",
+        "energetic-stagger",
+        "energetic-pulse",
+        "energetic-flip",
+        "playful-stretch",
+        "subtle-scale",
+        "functional-spinner"
+      ],
+      "recommended_interaction_patterns": [
+        "conversion-focused",
+        "assistant-guided",
+        "form-wizard",
+        "search-explore",
+        "notification-center"
+      ]
+    },
+    "landing-page": {
+      "preferred_layout_archetypes": [
+        "split-hero",
+        "feature-grid",
+        "balanced-sections"
+      ],
+      "preferred_motion_profiles": [
+        "smooth",
+        "cinematic",
+        "subtle",
+        "ambient",
+        "playful"
+      ],
+      "preferred_interaction_patterns": [
+        "conversion-focused",
+        "showcase-narrative"
+      ],
+      "favored_style_tags": [
+        "brand",
+        "hero",
+        "modern",
+        "premium"
+      ],
+      "penalized_style_tags": [
+        "dense-information",
+        "unstyled"
+      ],
+      "default_modules": [
+        "hero",
+        "benefits",
+        "social-proof",
+        "feature-grid",
+        "cta-band",
+        "faq"
+      ],
+      "optional_modules": [
+        "comparison-table",
+        "founder-note",
+        "video-block"
+      ],
+      "recommended_animation_profiles": [
+        "smooth-reveal",
+        "smooth-spring",
+        "energetic-stagger",
+        "cinematic-parallax",
+        "ambient-drift",
+        "ambient-glow",
+        "playful-wobble",
+        "playful-stretch"
+      ],
+      "recommended_interaction_patterns": [
+        "conversion-focused",
+        "showcase-narrative"
+      ]
+    },
+    "portfolio": {
+      "preferred_layout_archetypes": [
+        "showcase-masonry",
+        "timeline-flow",
+        "split-hero"
+      ],
+      "preferred_motion_profiles": [
+        "cinematic",
+        "energetic",
+        "smooth",
+        "ambient",
+        "playful"
+      ],
+      "preferred_interaction_patterns": [
+        "showcase-narrative",
+        "assistant-guided"
+      ],
+      "favored_style_tags": [
+        "expressive",
+        "editorial",
+        "visual",
+        "creative"
+      ],
+      "penalized_style_tags": [
+        "generic",
+        "corporate-only"
+      ],
+      "default_modules": [
+        "hero",
+        "project-grid",
+        "case-study",
+        "about",
+        "contact"
+      ],
+      "optional_modules": [
+        "awards",
+        "testimonials",
+        "behind-the-scenes"
+      ],
+      "recommended_animation_profiles": [
+        "cinematic-parallax",
+        "cinematic-sequence",
+        "cinematic-morph",
+        "energetic-stagger",
+        "energetic-flip",
+        "smooth-spring",
+        "ambient-drift",
+        "playful-wobble"
+      ],
+      "recommended_interaction_patterns": [
+        "showcase-narrative"
+      ]
+    },
+    "general": {
+      "preferred_layout_archetypes": [
+        "balanced-sections",
+        "feature-grid",
+        "article-first"
+      ],
+      "preferred_motion_profiles": [
+        "subtle",
+        "smooth",
+        "playful"
+      ],
+      "preferred_interaction_patterns": [
+        "assistant-guided",
+        "content-reading",
+        "form-wizard"
+      ],
+      "favored_style_tags": [
+        "modern",
+        "balanced",
+        "clean"
+      ],
+      "penalized_style_tags": [
+        "chaotic"
+      ],
+      "default_modules": [
+        "hero",
+        "section-grid",
+        "cta-band"
+      ],
+      "optional_modules": [
+        "faq",
+        "testimonials",
+        "contact"
+      ],
+      "recommended_animation_profiles": [
+        "subtle-fade",
+        "subtle-slide",
+        "subtle-scale",
+        "smooth-morph",
+        "playful-stretch"
+      ],
+      "recommended_interaction_patterns": [
+        "assistant-guided",
+        "content-reading",
+        "form-wizard"
+      ]
+    }
+  }
+}

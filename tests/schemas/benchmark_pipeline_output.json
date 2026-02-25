@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "benchmark_pipeline_output.json",
+  "title": "benchmark_pipeline.py output",
+  "type": "object",
+  "required": ["summary", "regression_gate", "baseline_update", "meta"],
+  "properties": {
+    "summary": {
+      "type": "object",
+      "required": ["pass_rate"],
+      "properties": {
+        "pass_rate": { "type": "number" },
+        "check_pass_rate": { "type": "object" },
+        "bucket_pass_rate": { "type": "object" },
+        "cases": { "type": "integer" },
+        "ok_runs": { "type": "integer" },
+        "pass_runs": { "type": "integer" },
+        "avg_time_sec": { "type": "number" },
+        "avg_hard_prompt_len": { "type": "number" },
+        "avg_ai_rules_count": { "type": "number" },
+        "style_distribution": { "type": "object" },
+        "failed_cases": { "type": "array" }
+      }
+    },
+    "regression_gate": {
+      "type": "object",
+      "required": ["enabled", "passed", "thresholds", "findings"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "passed": { "type": "boolean" },
+        "thresholds": { "type": "object" },
+        "findings": { "type": "array" }
+      }
+    },
+    "baseline_update": {
+      "type": "object",
+      "required": ["mode", "target", "enabled", "applied", "reason"],
+      "properties": {
+        "mode": { "type": "string" },
+        "target": { "type": ["string", "null"] },
+        "enabled": { "type": "boolean" },
+        "applied": { "type": "boolean" },
+        "reason": { "type": "string" }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["baseline_snapshot"],
+      "properties": {
+        "baseline_snapshot": { "type": ["string", "null"] }
+      }
+    },
+    "sample_results": { "type": "array" }
+  }
+}

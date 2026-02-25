@@ -1,5 +1,10 @@
 # StyleKit Style Prompts Output Contract
 
+Note:
+- Contract sync guard (`scripts/validate_output_contract_sync.py`) validates the **first** `json` code block under each required section.
+- Additional `json` blocks in the same section are treated as supplemental examples and are not schema-gated.
+- Use `--fail-on-warning` in CI to fail when duplicate/supplemental blocks trigger warnings.
+
 ## 1) Candidate Search Output
 
 Source: `scripts/search_stylekit.py`
@@ -12,7 +17,15 @@ Source: `scripts/search_stylekit.py`
   "top": 5,
   "returned": 5,
   "style_type_filter": "visual",
-  "schemaVersion": "1.1.0",
+  "site_type_filter": "dashboard",
+  "site_profile": {
+    "site_type": "dashboard",
+    "source": "alias-match",
+    "confidence": 0.9,
+    "matched_signals": ["dashboard", "admin"]
+  },
+  "schemaVersion": "2.0.0",
+  "catalog_schema_version": "1.1.0",
   "generatedAt": "2026-02-24T00:00:00.000Z",
   "candidates": [
     {
@@ -27,7 +40,13 @@ Source: `scripts/search_stylekit.py`
         "style_type_match": true,
         "matched_keywords": ["dashboard"],
         "matched_tags": ["high-contrast"],
-        "concept_overlap": 4
+        "concept_overlap": 4,
+        "site_type_adjustment": 2.4,
+        "site_route_details": {
+          "site_type": "dashboard",
+          "favored_hits": ["dashboard", "data"],
+          "penalized_hits": []
+        }
       },
       "reason_summary": "keyword overlap; tag overlap",
       "preview": {
@@ -77,6 +96,7 @@ Source: `scripts/generate_brief.py`
       "reference_notes": "...",
       "reference_file": "...",
       "reference_payload_present": true,
+      "reference_has_signals": true,
       "reference_schema_validation": {
         "valid": true,
         "strict_mode": false,
@@ -108,6 +128,46 @@ Source: `scripts/generate_brief.py`
       "token_hierarchy": ["..."],
       "component_architecture": ["..."]
     },
+    "site_profile": {
+      "site_type": "dashboard",
+      "source": "alias-match",
+      "confidence": 0.9,
+      "matched_signals": ["dashboard", "admin"]
+    },
+    "tag_bundle": {
+      "site_type": "dashboard",
+      "visual_style": "corporate",
+      "layout_archetype": "kpi-console",
+      "motion_profile": "minimal",
+      "interaction_pattern": "data-dense-feedback",
+      "modifiers": ["dense-information", "readability-first"]
+    },
+    "composition_plan": {
+      "site_type": "dashboard",
+      "recommendation_mode": "hybrid",
+      "style_recommendation": {},
+      "layout_recommendation": {},
+      "motion_recommendation": {},
+      "interaction_recommendation": {},
+      "owner_matrix": {},
+      "ai_interaction_script": ["..."],
+      "checks": ["..."],
+      "rationale": ["..."]
+    },
+    "decision_flow": {
+      "decision_speed": "fast",
+      "style_options": [],
+      "steps": ["..."],
+      "lock_command_template": "python scripts/run_pipeline.py ..."
+    },
+    "content_plan": {
+      "content_depth": "skeleton",
+      "core_pages": ["overview", "detail"],
+      "core_modules": ["kpi-cards", "table"],
+      "optional_modules": ["activity-feed"],
+      "state_coverage": ["default", "hover", "active", "focus-visible", "disabled", "loading", "error", "empty"],
+      "goal": "..."
+    },
     "color_strategy": {
       "primary": "#xxxxxx",
       "secondary": "#xxxxxx",
@@ -131,7 +191,7 @@ Source: `scripts/generate_brief.py`
       "notes": "..."
     }
   },
-  "ai_rules": ["..."],
+  "ai_rules": ["rule-1", "rule-2", "rule-3"],
   "hard_prompt": "...",
   "soft_prompt": "...",
   "candidate_rank": []
@@ -146,6 +206,10 @@ Rules:
 - `blend_mode=on` forces blend plan if at least one alternative style exists.
 - `refine_mode` supports: `new`, `polish`, `debug`, `contrast-fix`, `layout-fix`, `component-fill`.
 - `reference_type` supports: `none`, `screenshot`, `figma`, `mixed`.
+- `site_type` supports: `auto`, `blog`, `saas`, `dashboard`, `docs`, `ecommerce`, `landing-page`, `portfolio`, `general`.
+- `content_depth` supports: `skeleton`, `storyboard`, `near-prod`.
+- `recommendation_mode` supports: `hybrid`, `rules`.
+- `decision_speed` supports: `fast`, `guided`.
 - Optional reference payload can be passed via `--reference-file` or `--reference-json`.
 - Optional `--strict-reference-schema` fails on schema errors/unknown top-level fields.
 
@@ -169,6 +233,7 @@ Source: `scripts/qa_prompt.py`
   "autofix_suggestions": [],
   "meta": {
     "style": "vaporwave",
+    "expected_lang": "en",
     "min_ai_rules": 3,
     "prompt_length": 1200
   }
@@ -211,15 +276,26 @@ Source: `scripts/run_pipeline.py`
 
 ```json
 {
+  "schemaVersion": "2.0.0",
   "status": "pass",
+  "site_type": "dashboard",
   "query": "...",
   "stack": "nextjs",
   "style_type_filter": "visual",
+  "recommendation_mode": "hybrid",
+  "content_depth": "skeleton",
+  "decision_speed": "fast",
   "blend_mode": "auto",
   "refine_mode": "new",
   "reference_type": "none",
   "strict_reference_schema": false,
   "selected_style": "glassmorphism",
+  "site_profile": {},
+  "tag_bundle": {},
+  "composition_plan": {},
+  "decision_flow": {},
+  "content_plan": {},
+  "upgrade_candidates": [],
   "candidates": [],
   "result": {},
   "quality_gate": {}
@@ -232,6 +308,8 @@ Rules:
 - `result` equals output from `generate_brief.py`.
 - `quality_gate` equals output from `qa_prompt.py`.
 - `blend_mode` controls blend behavior: `off`, `auto`, `on`.
+- `--style <slug>` always forces effective `blend_mode=off` in `run_pipeline.py`.
+- `upgrade_candidates` is advisory only; it does not mutate repository files.
 
 ## 5) Benchmark Output
 

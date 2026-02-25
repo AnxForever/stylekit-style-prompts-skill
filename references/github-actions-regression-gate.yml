@@ -4,6 +4,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: .
+
 jobs:
   regression-gate:
     runs-on: ubuntu-latest
@@ -11,17 +15,40 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
+      - name: Install contract-check dependency
+        run: |
+          pip install jsonschema
+
+      - name: Environment info
+        run: |
+          python3 --version
+          node --version
+          node bin/stylekit-skill.js doctor
+
       - name: Run smoke test
         run: |
-          python3 path/to/stylekit-style-prompts/scripts/smoke_test.py
+          python3 scripts/smoke_test.py
+
+      - name: Run taxonomy guard
+        run: |
+          python3 scripts/validate_taxonomy.py --max-unused-style-tags 0 --fail-on-warning
+
+      - name: Run output-contract sync guard
+        run: |
+          python3 scripts/validate_output_contract_sync.py --format text --fail-on-warning
 
       - name: Run benchmark regression gate
         run: |
-          bash path/to/stylekit-style-prompts/scripts/ci_regression_gate.sh \
-            --baseline path/to/stylekit-style-prompts/references/benchmark-baseline.json \
-            --snapshot-out path/to/stylekit-style-prompts/tmp/benchmark-ci-latest.json
+          bash scripts/ci_regression_gate.sh \
+            --baseline references/benchmark-baseline.json \
+            --snapshot-out tmp/benchmark-ci-latest.json

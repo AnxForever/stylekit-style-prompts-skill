@@ -1,0 +1,488 @@
+{
+  "schemaVersion": "2.0.0",
+  "patterns": {
+    "content-reading": {
+      "primary_goal": "Optimizes for distraction-free, long-form reading by prioritizing legibility and flow.",
+      "suitable_site_types": [
+        "blog",
+        "docs",
+        "general"
+      ],
+      "required_components": [
+        "article-body",
+        "table-of-contents",
+        "reading-progress"
+      ],
+      "state_coverage_requirements": {
+        "links": [
+          "default",
+          "hover",
+          "visited",
+          "focus-visible"
+        ],
+        "code-blocks": [
+          "default",
+          "hover-copy",
+          "copied-feedback"
+        ],
+        "images": [
+          "loading",
+          "loaded",
+          "error",
+          "lightbox"
+        ],
+        "reading-progress-bar": [
+          "hidden",
+          "visible",
+          "complete"
+        ],
+        "inline-footnote": [
+          "default",
+          "hover",
+          "focused",
+          "active-popover"
+        ]
+      },
+      "accessibility_constraints": [
+        "Maintain line length between 45-75 characters for optimal readability",
+        "Ensure paragraph spacing is at least 1.5em",
+        "Implement skip-to-content links as the first focusable element",
+        "Maintain a logical heading hierarchy without skipping levels"
+      ],
+      "anti_patterns": [
+        "Sticky overlays that reduce the effective reading area",
+        "Auto-playing media within the primary article flow",
+        "Infinite scroll without accessible pagination fallbacks"
+      ]
+    },
+    "conversion-focused": {
+      "primary_goal": "Guides users toward a primary conversion event via clear visual hierarchy and persuasive signals.",
+      "suitable_site_types": [
+        "landing-page",
+        "ecommerce",
+        "saas"
+      ],
+      "required_components": [
+        "hero-cta",
+        "pricing-card",
+        "social-proof",
+        "trust-badges"
+      ],
+      "state_coverage_requirements": {
+        "cta-button": [
+          "default",
+          "hover",
+          "active",
+          "loading",
+          "success",
+          "disabled"
+        ],
+        "pricing-toggle": [
+          "monthly-active",
+          "annual-active",
+          "focused",
+          "loading"
+        ],
+        "form-fields": [
+          "empty",
+          "focused",
+          "filled",
+          "error",
+          "success"
+        ],
+        "testimonial-carousel": [
+          "auto-playing",
+          "paused",
+          "drag-active",
+          "focused"
+        ]
+      },
+      "accessibility_constraints": [
+        "Primary CTA must meet a WCAG AA contrast ratio of at least 4.5:1",
+        "Associate form error messages with inputs using aria-describedby",
+        "Announce dynamic price changes via ARIA live regions",
+        "Provide manual controls for testimonial carousels"
+      ],
+      "anti_patterns": [
+        "Competing CTAs with identical visual weight above the fold",
+        "Dark patterns in pricing or subscription disclosure",
+        "Form submissions lacking immediate 'loading' state feedback"
+      ]
+    },
+    "data-dense-feedback": {
+      "primary_goal": "Supports efficient data parsing and manipulation through immediate, granular interaction feedback.",
+      "suitable_site_types": [
+        "dashboard",
+        "saas"
+      ],
+      "required_components": [
+        "data-table",
+        "kpi-card",
+        "filter-bar",
+        "chart",
+        "alert-strip"
+      ],
+      "state_coverage_requirements": {
+        "table-row": [
+          "default",
+          "hover",
+          "selected",
+          "loading",
+          "error",
+          "empty"
+        ],
+        "kpi-card": [
+          "loading",
+          "loaded",
+          "error",
+          "trend-up",
+          "trend-down"
+        ],
+        "filter": [
+          "default",
+          "active",
+          "applied-count",
+          "clearing"
+        ],
+        "export-menu": [
+          "idle",
+          "open",
+          "generating",
+          "ready",
+          "error"
+        ],
+        "bulk-action-bar": [
+          "hidden",
+          "entering",
+          "visible",
+          "processing",
+          "success"
+        ]
+      },
+      "accessibility_constraints": [
+        "Tables must use semantic headers with appropriate scope attributes",
+        "Provide accessible data table fallbacks for complex charts",
+        "Announce critical status updates via aria-live regions",
+        "Ensure full keyboard operability for all filtering and sorting controls"
+      ],
+      "anti_patterns": [
+        "Auto-refreshing data without user consent or notification",
+        "Hiding essential data behind tooltips without persistent alternatives",
+        "Relying solely on color to communicate system status"
+      ]
+    },
+    "showcase-narrative": {
+      "primary_goal": "Delivers an immersive visual journey that highlights creative work and brand identity.",
+      "suitable_site_types": [
+        "portfolio",
+        "landing-page"
+      ],
+      "required_components": [
+        "project-card",
+        "lightbox",
+        "case-study-hero",
+        "image-gallery"
+      ],
+      "state_coverage_requirements": {
+        "project-card": [
+          "default",
+          "hover-preview",
+          "expanded",
+          "loading"
+        ],
+        "gallery": [
+          "browsing",
+          "focused-item",
+          "lightbox-open",
+          "lightbox-close"
+        ],
+        "case-study": [
+          "summary",
+          "expanded",
+          "scrolling"
+        ],
+        "parallax-section": [
+          "loading",
+          "entering",
+          "active",
+          "exiting"
+        ],
+        "video-modal": [
+          "loading",
+          "playing",
+          "paused",
+          "buffering",
+          "error"
+        ]
+      },
+      "accessibility_constraints": [
+        "Provide descriptive alt text for all meaningful visual assets",
+        "Manage focus within lightboxes and enable Escape key dismissal",
+        "Include captions or full transcripts for all video content",
+        "Ensure all motion respects the 'prefers-reduced-motion' media query"
+      ],
+      "anti_patterns": [
+        "Auto-advancing galleries lacking pause/play controls",
+        "Scroll hijacking that disrupts standard page navigation",
+        "Heavy assets without low-resolution loading placeholders"
+      ]
+    },
+    "docs-navigation": {
+      "primary_goal": "Facilitates rapid information retrieval through structured, predictable navigation and search.",
+      "suitable_site_types": [
+        "docs"
+      ],
+      "required_components": [
+        "sidebar-nav",
+        "search",
+        "breadcrumb",
+        "code-block",
+        "version-switcher"
+      ],
+      "state_coverage_requirements": {
+        "sidebar-item": [
+          "default",
+          "hover",
+          "active",
+          "expanded",
+          "collapsed"
+        ],
+        "search": [
+          "empty",
+          "typing",
+          "results",
+          "no-results",
+          "loading"
+        ],
+        "code-block": [
+          "default",
+          "hover",
+          "copied",
+          "wrapping-toggled",
+          "error"
+        ],
+        "table-of-contents": [
+          "idle",
+          "tracking-scroll",
+          "stuck",
+          "expanded"
+        ]
+      },
+      "accessibility_constraints": [
+        "Apply aria-current to the active page link in the sidebar",
+        "Announce dynamic search results via aria-live regions",
+        "Ensure code snippets have keyboard-accessible copy buttons",
+        "Standardize the Cmd/Ctrl+K keyboard shortcut for search access"
+      ],
+      "anti_patterns": [
+        "Collapsible sidebars that lack a visible toggle on mobile",
+        "Search functionality that requires precise string matching",
+        "Version switchers that reset the user's scroll position"
+      ]
+    },
+    "assistant-guided": {
+      "primary_goal": "Reduces cognitive load via progressive disclosure and contextual guidance throughout complex tasks.",
+      "suitable_site_types": [
+        "saas",
+        "general",
+        "ecommerce"
+      ],
+      "required_components": [
+        "onboarding-flow",
+        "tooltip",
+        "command-palette",
+        "empty-state"
+      ],
+      "state_coverage_requirements": {
+        "onboarding": [
+          "welcome",
+          "step-active",
+          "step-complete",
+          "skipped",
+          "finished"
+        ],
+        "tooltip": [
+          "hidden",
+          "appearing",
+          "visible",
+          "dismissing"
+        ],
+        "empty-state": [
+          "no-data",
+          "first-use",
+          "error",
+          "action-prompt"
+        ],
+        "chat-message": [
+          "typing-indicator",
+          "streaming",
+          "complete",
+          "error-retry"
+        ],
+        "prompt-suggestion": [
+          "default",
+          "hover",
+          "focused",
+          "loading",
+          "applied"
+        ]
+      },
+      "accessibility_constraints": [
+        "Ensure tooltips are discoverable and triggerable via keyboard focus",
+        "Allow onboarding flows to be skipped, paused, and resumed",
+        "Implement full screen-reader support for command palettes",
+        "Ensure empty states provide clear, actionable next steps"
+      ],
+      "anti_patterns": [
+        "Mandatory onboarding sequences without an exit option",
+        "Persistent tooltips that obscure underlying interactive elements",
+        "Command palettes that lack fuzzy-search logic"
+      ]
+    },
+    "form-wizard": {
+      "primary_goal": "Reduces cognitive load during complex data collection by dividing inputs into sequential, validated steps.",
+      "suitable_site_types": [
+        "saas",
+        "ecommerce",
+        "general"
+      ],
+      "required_components": [
+        "step-indicator",
+        "form-field",
+        "progress-bar",
+        "navigation-buttons"
+      ],
+      "state_coverage_requirements": {
+        "step-indicator": [
+          "upcoming",
+          "active",
+          "completed",
+          "error",
+          "disabled"
+        ],
+        "form-field": [
+          "default",
+          "focused",
+          "filled",
+          "valid",
+          "invalid",
+          "disabled"
+        ],
+        "navigation-buttons": [
+          "default",
+          "disabled",
+          "loading",
+          "success"
+        ]
+      },
+      "accessibility_constraints": [
+        "Ensure step indicators communicate current step and total steps to screen readers using aria-current and visually hidden text.",
+        "Connect inline error messages programmatically to their respective input fields using aria-describedby.",
+        "Manage focus appropriately when transitioning between wizard steps, typically moving to the first heading or input of the new step.",
+        "Provide clear, persistent error summaries at the top of the form when a step submission fails validation."
+      ],
+      "anti_patterns": [
+        "Hiding the 'Back' button or aggressively breaking browser back navigation functionality.",
+        "Clearing user-entered data unconditionally when they navigate to previous steps to review their answers.",
+        "Failing to visually and programmatically indicate which fields are optional versus required upfront."
+      ]
+    },
+    "search-explore": {
+      "primary_goal": "Facilitates rapid content discovery and evaluation through immediate feedback on search queries, filtering, and sorting mechanisms.",
+      "suitable_site_types": [
+        "ecommerce",
+        "blog",
+        "docs",
+        "saas"
+      ],
+      "required_components": [
+        "search-input",
+        "facet-group",
+        "result-card",
+        "empty-state"
+      ],
+      "state_coverage_requirements": {
+        "search-input": [
+          "idle",
+          "focused",
+          "typing",
+          "loading-suggestions",
+          "populated"
+        ],
+        "facet-group": [
+          "collapsed",
+          "expanded",
+          "partially-selected",
+          "loading-counts",
+          "disabled"
+        ],
+        "result-card": [
+          "loading-skeleton",
+          "loaded",
+          "focused",
+          "hover",
+          "saved"
+        ]
+      },
+      "accessibility_constraints": [
+        "Announce dynamic updates to search results counts and filtering status using an aria-live region.",
+        "Ensure all interactive facet checkboxes, sliders, and toggle buttons are fully keyboard operable.",
+        "Maintain logical focus flow either by keeping it on the search input or moving it to the first result appropriately after a query executes.",
+        "Provide sufficient color contrast for highlighting search query keyword matches within the result text snippets."
+      ],
+      "anti_patterns": [
+        "Returning a dead-end 'no results' page without suggesting alternative queries, spelling corrections, or relaxing applied filters.",
+        "Triggering expensive network requests on every single keystroke without debouncing, causing UI stuttering and layout shifts.",
+        "Resetting all user-selected category filters unexpectedly when a new keyword search is initiated in the main input."
+      ]
+    },
+    "notification-center": {
+      "primary_goal": "Aggregates asynchronous system events and user activity updates into a centralized, easily dismissible feed.",
+      "suitable_site_types": [
+        "saas",
+        "dashboard",
+        "ecommerce"
+      ],
+      "required_components": [
+        "notification-trigger",
+        "toast-message",
+        "notification-list",
+        "badge-counter"
+      ],
+      "state_coverage_requirements": {
+        "notification-trigger": [
+          "idle",
+          "has-unread",
+          "active-popover",
+          "disabled"
+        ],
+        "toast-message": [
+          "entering",
+          "visible",
+          "action-hover",
+          "exiting",
+          "paused"
+        ],
+        "notification-item": [
+          "unread",
+          "read",
+          "hover",
+          "selected",
+          "archived",
+          "error"
+        ]
+      },
+      "accessibility_constraints": [
+        "Implement toast notifications using role='status' or role='alert' appropriately depending on the urgency of the message.",
+        "Ensure the main notification trigger button exposes its expanded or collapsed state via the aria-expanded attribute.",
+        "Provide a defined keyboard shortcut or a clear focus management path to reach the notification center popover quickly.",
+        "Allow users to pause, dismiss, or extend the duration of auto-hiding toasts before they disappear from the screen."
+      ],
+      "anti_patterns": [
+        "Stacking too many transient toasts on screen simultaneously, obscuring primary application content and navigation.",
+        "Failing to provide a persistent history log or inbox for transient notifications that users might have missed while away.",
+        "Using generic titles like 'System Update' without specifying the context, impact, or required user action."
+      ]
+    }
+  }
+}

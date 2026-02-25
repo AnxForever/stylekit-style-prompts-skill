@@ -11,37 +11,20 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
-STOPWORDS = {
-    "the",
-    "and",
-    "for",
-    "with",
-    "from",
-    "that",
-    "this",
-    "into",
-    "your",
-    "you",
-    "want",
-    "need",
-    "make",
-    "build",
-    "page",
-    "site",
-    "style",
-    "design",
-    "frontend",
-    "ui",
-    "ux",
-    "页面",
-    "风格",
-    "设计",
-    "前端",
-    "需要",
-    "希望",
-    "一个",
-    "这个",
-}
+import sys
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
+from _common import STOPWORDS, __version__, load_json, normalize_text, tokenize
+
+from v2_taxonomy import (
+    SITE_TYPES,
+    load_v2_references,
+    resolve_site_type,
+    routing_adjustment_for_style,
+    routing_for_site_type,
+)
 
 QUERY_SYNONYMS = {
     "glass": ["glassmorphism", "frosted", "blur", "透明", "模糊", "玻璃"],
@@ -323,36 +306,6 @@ CATALOG_DEFAULT = REF_DIR / "style-prompts.json"
 INDEX_DEFAULT = REF_DIR / "style-search-index.json"
 
 
-def normalize_text(value: Any) -> str:
-    text = str(value or "").lower()
-    text = re.sub(r"[^\w\u4e00-\u9fff\s-]", " ", text)
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
-
-
-def tokenize(text: str) -> list[str]:
-    text_norm = normalize_text(text)
-    tokens: list[str] = []
-
-    for part in re.findall(r"[\u4e00-\u9fff]+|[a-z0-9-]+", text_norm):
-        # Chinese token handling: keep whole phrase + bi-grams
-        if re.fullmatch(r"[\u4e00-\u9fff]+", part):
-            if len(part) >= 2 and part not in STOPWORDS:
-                tokens.append(part)
-            if len(part) >= 2:
-                for i in range(len(part) - 1):
-                    gram = part[i : i + 2]
-                    if gram not in STOPWORDS:
-                        tokens.append(gram)
-            continue
-
-        # Latin token handling
-        for unit in part.split("-"):
-            if len(unit) > 1 and unit not in STOPWORDS:
-                tokens.append(unit)
-
-    return tokens
-
 
 def expand_query_tokens(tokens: list[str]) -> list[str]:
     expanded = list(tokens)
@@ -417,10 +370,6 @@ class BM25:
         out.sort(key=lambda item: item[1], reverse=True)
         return out
 
-
-def load_json(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8") as f:
-        return json.load(f)
 
 
 def build_text(style: dict[str, Any]) -> str:
@@ -653,6 +602,7 @@ def format_markdown(payload: dict[str, Any]) -> str:
     lines = [
         "# Style Search Result",
         f"- Query: {payload['query']}",
+        f"- Site type: {payload.get('site_profile', {}).get('site_type', 'general')}",
         f"- Returned: {len(payload['candidates'])}",
         "",
     ]
@@ -671,23 +621,47 @@ def format_markdown(payload: dict[str, Any]) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Search StyleKit styles and rank candidates")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--query", required=True, help="User requirement or desired visual direction")
     parser.add_argument("--top", type=int, default=5, help="Top candidates to return")
     parser.add_argument("--style-type", choices=["visual", "layout", "animation"], help="Filter by style type")
+    parser.add_argument("--site-type", default="auto", choices=["auto", *SITE_TYPES], help="Site type routing hint")
     parser.add_argument("--catalog", default=str(CATALOG_DEFAULT), help="Path to style-prompts.json")
     parser.add_argument("--index", default=str(INDEX_DEFAULT), help="Path to style-search-index.json")
     parser.add_argument("--format", choices=["json", "markdown"], default="json")
     args = parser.parse_args()
+    payload = run(
+        query=args.query,
+        top=args.top,
+        style_type=args.style_type,
+        site_type=args.site_type,
+        catalog=args.catalog,
+        index=args.index,
+    )
+    if args.format == "markdown":
+        print(format_markdown(payload))
+    else:
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
 
-    catalog_path = Path(args.catalog)
+
+def run(
+    *,
+    query: str,
+    top: int = 5,
+    style_type: str | None = None,
+    site_type: str = "auto",
+    catalog: str = str(CATALOG_DEFAULT),
+    index: str = str(INDEX_DEFAULT),
+) -> dict[str, Any]:
+    catalog_path = Path(catalog)
     if not catalog_path.exists():
         raise SystemExit(f"Catalog not found: {catalog_path}")
 
-    catalog = load_json(catalog_path)
-    styles: list[dict[str, Any]] = catalog.get("styles", [])
+    catalog_data = load_json(catalog_path)
+    styles: list[dict[str, Any]] = catalog_data.get("styles", [])
 
-    if args.style_type:
-        styles = [s for s in styles if s.get("styleType") == args.style_type]
+    if style_type:
+        styles = [s for s in styles if s.get("styleType") == style_type]
 
     if not styles:
         raise SystemExit("No styles available after filtering")
@@ -696,7 +670,7 @@ def main() -> None:
     slug_for_doc: list[str]
     bm25_map: dict[str, float] = {}
 
-    index_path = Path(args.index)
+    index_path = Path(index)
     if index_path.exists():
         index_data = load_json(index_path)
         docs_data = index_data.get("documents", [])
@@ -706,8 +680,11 @@ def main() -> None:
         docs = [build_text(s) for s in styles]
         slug_for_doc = [s.get("slug", "") for s in styles]
 
-    qtokens_base = tokenize(args.query)
+    qtokens_base = tokenize(query)
     qtokens = expand_query_tokens(qtokens_base)
+    v2_refs = load_v2_references(REF_DIR)
+    site_profile = resolve_site_type(query, site_type, v2_refs["aliases"])
+    route = routing_for_site_type(site_profile["site_type"], v2_refs["routing"])
 
     bm25 = BM25()
     bm25.fit(docs)
@@ -718,9 +695,16 @@ def main() -> None:
 
     ranked = []
     for style in styles:
-        h_score, reasons = heuristic_score(style, args.query, qtokens)
+        h_score, reasons = heuristic_score(style, query, qtokens)
         b_score = bm25_map.get(style.get("slug", ""), 0.0)
-        final_score = b_score * 3.0 + h_score
+        routing_adjustment, routing_details = routing_adjustment_for_style(
+            style=style,
+            site_type=site_profile["site_type"],
+            route=route,
+            style_map_payload=v2_refs["style_map"],
+            query=query,
+        )
+        final_score = b_score * 3.0 + h_score + routing_adjustment
 
         reason_parts = []
         if reasons["exact_slug"]:
@@ -731,8 +715,13 @@ def main() -> None:
             reason_parts.append("keyword overlap")
         if reasons["matched_tags"]:
             reason_parts.append("tag overlap")
+        if routing_adjustment != 0:
+            reason_parts.append("site-type route bias")
         if not reason_parts:
             reason_parts.append("semantic overlap from style description and rules")
+
+        reasons["site_type_adjustment"] = routing_adjustment
+        reasons["site_route_details"] = routing_details
 
         ranked.append(
             {
@@ -751,24 +740,22 @@ def main() -> None:
         )
 
     ranked.sort(key=lambda item: item["score"], reverse=True)
-    top_n = max(args.top, 1)
+    top_n = max(top, 1)
 
-    payload = {
-        "query": args.query,
+    return {
+        "query": query,
         "query_tokens": qtokens_base[:20],
         "expanded_query_tokens": qtokens[:40],
         "top": top_n,
         "returned": min(top_n, len(ranked)),
-        "style_type_filter": args.style_type,
-        "schemaVersion": catalog.get("schemaVersion", "unknown"),
-        "generatedAt": catalog.get("generatedAt"),
+        "style_type_filter": style_type,
+        "site_type_filter": site_type,
+        "site_profile": site_profile,
+        "schemaVersion": "2.0.0",
+        "catalog_schema_version": catalog_data.get("schemaVersion", "unknown"),
+        "generatedAt": catalog_data.get("generatedAt"),
         "candidates": ranked[:top_n],
     }
-
-    if args.format == "markdown":
-        print(format_markdown(payload))
-    else:
-        print(json.dumps(payload, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "2.0.0",
+  "description": "Controlled taxonomy for composing StyleKit recommendations across site type, style, layout, motion, and interaction.",
+  "dimensions": {
+    "site_type": {
+      "type": "enum",
+      "values": [
+        "blog",
+        "saas",
+        "dashboard",
+        "docs",
+        "ecommerce",
+        "landing-page",
+        "portfolio",
+        "general"
+      ]
+    },
+    "visual_style": {
+      "type": "enum",
+      "values": [
+        "minimal",
+        "modern-tech",
+        "expressive",
+        "editorial",
+        "retro",
+        "corporate",
+        "playful",
+        "balanced"
+      ]
+    },
+    "layout_archetype": {
+      "type": "enum",
+      "values": [
+        "article-first",
+        "feature-grid",
+        "kpi-console",
+        "split-hero",
+        "showcase-masonry",
+        "catalog-conversion",
+        "doc-sidebar",
+        "timeline-flow",
+        "form-centric",
+        "balanced-sections"
+      ]
+    },
+    "motion_profile": {
+      "type": "enum",
+      "values": [
+        "minimal",
+        "subtle",
+        "smooth",
+        "energetic",
+        "cinematic",
+        "playful",
+        "ambient",
+        "functional"
+      ]
+    },
+    "interaction_pattern": {
+      "type": "enum",
+      "values": [
+        "content-reading",
+        "conversion-focused",
+        "data-dense-feedback",
+        "showcase-narrative",
+        "docs-navigation",
+        "assistant-guided",
+        "form-wizard",
+        "search-explore",
+        "notification-center"
+      ]
+    },
+    "modifiers": {
+      "type": "set",
+      "values": [
+        "high-contrast",
+        "readability-first",
+        "conversion-first",
+        "brand-heavy",
+        "trust-first",
+        "dense-information",
+        "minimal-chrome",
+        "hero-driven",
+        "editorial-tone",
+        "playful-tone",
+        "premium-tone"
+      ]
+    }
+  }
+}

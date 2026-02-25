@@ -1,0 +1,78 @@
+name: stylekit-style-prompts
+display_name: "StyleKit Style Prompts"
+description: >
+  Generate beautiful frontend design prompts from 120+ StyleKit styles.
+  Includes style search, design brief generation, multi-style blending,
+  prompt quality audit, and iterative refinement workflows.
+
+triggers:
+  - user asks to generate a frontend design prompt or style prompt
+  - user wants to select, compare, or blend StyleKit visual styles
+  - user needs a design brief for a page, dashboard, or landing page
+  - user asks to audit or fix an existing frontend prompt
+  - user mentions StyleKit, style prompts, or design system prompt generation
+  - user wants to convert a screenshot or Figma frame into a style-constrained prompt
+
+exclude:
+  - general CSS questions without StyleKit context
+  - backend logic or non-visual tasks
+  - generic code generation without design intent
+
+tools:
+  - bash
+
+commands:
+  one_shot:
+    description: "Full pipeline: search → brief → prompt → QA in one command"
+    template: >
+      python scripts/run_pipeline.py
+      --query "{query}"
+      --stack {stack|nextjs}
+      --format json
+  codegen:
+    description: "Prompt generation mode with QA gate"
+    template: >
+      python scripts/run_pipeline.py
+      --workflow codegen
+      --query "{query}"
+      --stack {stack|nextjs}
+      --format json
+  search:
+    description: "Find top matching StyleKit styles"
+    template: >
+      python scripts/search_stylekit.py
+      --query "{query}"
+      --top {top|5}
+      --format json
+  brief:
+    description: "Generate design brief and prompts"
+    template: >
+      python scripts/generate_brief.py
+      --query "{query}"
+      --stack {stack|nextjs}
+      --mode {mode|brief+prompt}
+  qa:
+    description: "Audit prompt quality"
+    template: >
+      python scripts/qa_prompt.py
+      --input {input_file}
+      --style {style_slug}
+
+working_directory: scripts
+requires:
+  - python >= 3.10
+
+error_handling:
+  qa_fail: >
+    When QA returns status "fail", read violations and autofix_suggestions.
+    Rewrite the prompt addressing each violation, then re-run QA.
+    Repeat up to 3 rounds. If still failing, report remaining violations to user.
+  no_style_match: >
+    If search returns 0 candidates, broaden the query or remove style-type filter.
+  reference_schema_error: >
+    If --strict-reference-schema fails, show schema errors to user and suggest fixes.
+
+parameter_interactions:
+  - "--blend-mode on + --style <slug> forces blend off (single style override)"
+  - "--refine-mode != new implies iterative context; pair with reference inputs when available"
+  - "--strict-reference-schema blocks unknown fields; omit for exploratory payloads"

@@ -1,0 +1,576 @@
+{
+  "schemaVersion": "2.0.0",
+  "profiles": {
+    "minimal-static": {
+      "motion_profile": "minimal",
+      "intent": "Eliminates decorative motion to focus exclusively on essential, instantaneous state changes.",
+      "trigger": "state-change-only",
+      "states": [
+        "default",
+        "hover",
+        "active",
+        "focus-visible",
+        "disabled"
+      ],
+      "duration_range_ms": [
+        0,
+        100
+      ],
+      "easing": "linear",
+      "reduced_motion_fallback": "none",
+      "suitable_site_types": [
+        "docs",
+        "dashboard"
+      ],
+      "anti_patterns": [
+        "Scroll-triggered animations",
+        "Auto-playing carousels"
+      ]
+    },
+    "minimal-functional": {
+      "motion_profile": "minimal",
+      "intent": "Provides subtle micro-feedback to confirm user interactions with UI controls.",
+      "trigger": "user-interaction",
+      "states": [
+        "hover",
+        "active",
+        "focus-visible",
+        "loading"
+      ],
+      "duration_range_ms": [
+        50,
+        150
+      ],
+      "easing": "ease-out",
+      "reduced_motion_fallback": "instant-state-swap",
+      "suitable_site_types": [
+        "docs",
+        "dashboard",
+        "saas"
+      ],
+      "anti_patterns": [
+        "Elaborate entrance animations",
+        "Parallax effects"
+      ]
+    },
+    "subtle-fade": {
+      "motion_profile": "subtle",
+      "intent": "Utilizes soft opacity transitions for smooth content entry and visibility shifts.",
+      "trigger": "viewport-enter",
+      "states": [
+        "hidden",
+        "visible",
+        "hover"
+      ],
+      "duration_range_ms": [
+        150,
+        300
+      ],
+      "easing": "ease-in-out",
+      "reduced_motion_fallback": "instant-visible",
+      "suitable_site_types": [
+        "blog",
+        "saas",
+        "general"
+      ],
+      "anti_patterns": [
+        "Stagger delays exceeding 500ms",
+        "Jarring bounce easing"
+      ]
+    },
+    "subtle-slide": {
+      "motion_profile": "subtle",
+      "intent": "Employs brief directional translations to guide visual flow during list or card entry.",
+      "trigger": "viewport-enter",
+      "states": [
+        "off-screen",
+        "in-place",
+        "hover"
+      ],
+      "duration_range_ms": [
+        200,
+        350
+      ],
+      "easing": "ease-out",
+      "reduced_motion_fallback": "fade-only",
+      "suitable_site_types": [
+        "blog",
+        "saas",
+        "ecommerce",
+        "general"
+      ],
+      "anti_patterns": [
+        "Slide distances exceeding 40px",
+        "Horizontal sliding on mobile viewports"
+      ]
+    },
+    "smooth-morph": {
+      "motion_profile": "smooth",
+      "intent": "Facilitates fluid transitions between geometric states to maintain visual continuity during layout changes.",
+      "trigger": "user-interaction",
+      "states": [
+        "default",
+        "expanded",
+        "collapsed",
+        "hover"
+      ],
+      "duration_range_ms": [
+        250,
+        450
+      ],
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "reduced_motion_fallback": "instant-state-swap",
+      "suitable_site_types": [
+        "saas",
+        "ecommerce",
+        "landing-page"
+      ],
+      "anti_patterns": [
+        "Unexpected layout shifts during morphing",
+        "Morphing without will-change optimization"
+      ]
+    },
+    "smooth-flow": {
+      "motion_profile": "smooth",
+      "intent": "Delivers seamless, continuous motion synchronized with scroll progress for immersive navigation.",
+      "trigger": "scroll-progress",
+      "states": [
+        "start",
+        "mid",
+        "end"
+      ],
+      "duration_range_ms": [
+        300,
+        600
+      ],
+      "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      "reduced_motion_fallback": "static-position",
+      "suitable_site_types": [
+        "landing-page",
+        "portfolio",
+        "general"
+      ],
+      "anti_patterns": [
+        "Jank caused by non-composited properties",
+        "Aggressive scroll hijacking"
+      ]
+    },
+    "smooth-reveal": {
+      "motion_profile": "smooth",
+      "intent": "Implements sophisticated section reveals using clip-paths or masks for high-end visual impact.",
+      "trigger": "viewport-enter",
+      "states": [
+        "masked",
+        "revealed"
+      ],
+      "duration_range_ms": [
+        400,
+        700
+      ],
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "reduced_motion_fallback": "fade-only",
+      "suitable_site_types": [
+        "landing-page",
+        "portfolio"
+      ],
+      "anti_patterns": [
+        "Reveals that block content readability",
+        "Overlapping simultaneous reveals"
+      ]
+    },
+    "energetic-bounce": {
+      "motion_profile": "energetic",
+      "intent": "Applies dynamic spring physics to provide tactile, high-energy feedback for interactive elements.",
+      "trigger": "user-interaction",
+      "states": [
+        "rest",
+        "pressed",
+        "released",
+        "hover"
+      ],
+      "duration_range_ms": [
+        200,
+        500
+      ],
+      "easing": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      "reduced_motion_fallback": "scale-only",
+      "suitable_site_types": [
+        "portfolio",
+        "landing-page",
+        "ecommerce"
+      ],
+      "anti_patterns": [
+        "Bounce effects on long-form text",
+        "Input-to-bounce delay exceeding 100ms"
+      ]
+    },
+    "energetic-stagger": {
+      "motion_profile": "energetic",
+      "intent": "Choreographs sequential element entry to establish visual rhythm and hierarchy in grids or lists.",
+      "trigger": "viewport-enter",
+      "states": [
+        "queued",
+        "entering",
+        "settled"
+      ],
+      "duration_range_ms": [
+        150,
+        400
+      ],
+      "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "reduced_motion_fallback": "instant-visible",
+      "suitable_site_types": [
+        "portfolio",
+        "ecommerce",
+        "landing-page"
+      ],
+      "anti_patterns": [
+        "Staggering more than 12 items simultaneously",
+        "Total sequence duration exceeding 1500ms"
+      ]
+    },
+    "energetic-pulse": {
+      "motion_profile": "energetic",
+      "intent": "Directs focus toward critical calls to action or notifications using rhythmic scaling or highlights.",
+      "trigger": "attention-needed",
+      "states": [
+        "idle",
+        "pulsing",
+        "acknowledged"
+      ],
+      "duration_range_ms": [
+        300,
+        800
+      ],
+      "easing": "ease-in-out",
+      "reduced_motion_fallback": "color-highlight-only",
+      "suitable_site_types": [
+        "ecommerce",
+        "saas",
+        "landing-page"
+      ],
+      "anti_patterns": [
+        "Infinite pulse loops",
+        "Pulsing non-interactive static elements"
+      ]
+    },
+    "cinematic-parallax": {
+      "motion_profile": "cinematic",
+      "intent": "Creates spatial depth through multi-layered parallax effects for immersive brand storytelling.",
+      "trigger": "scroll-progress",
+      "states": [
+        "background",
+        "midground",
+        "foreground"
+      ],
+      "duration_range_ms": [
+        500,
+        1200
+      ],
+      "easing": "linear",
+      "reduced_motion_fallback": "static-layers",
+      "suitable_site_types": [
+        "portfolio",
+        "landing-page"
+      ],
+      "anti_patterns": [
+        "Parallax on mobile devices",
+        "Exceeding 3 depth layers",
+        "Parallax applied to body text"
+      ]
+    },
+    "cinematic-sequence": {
+      "motion_profile": "cinematic",
+      "intent": "Executes a highly orchestrated sequence of element arrivals for dramatic, high-fidelity landing experiences.",
+      "trigger": "page-load",
+      "states": [
+        "waiting",
+        "entering",
+        "settled"
+      ],
+      "duration_range_ms": [
+        600,
+        1500
+      ],
+      "easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "reduced_motion_fallback": "instant-visible",
+      "suitable_site_types": [
+        "portfolio",
+        "landing-page"
+      ],
+      "anti_patterns": [
+        "Sequences blocking interaction for over 2s",
+        "Re-triggering sequences on every route change"
+      ]
+    },
+    "playful-wobble": {
+      "motion_profile": "playful",
+      "intent": "Provides a tactile, toy-like physical reaction to user input to increase engagement on primary actions.",
+      "trigger": "user-interaction",
+      "states": [
+        "default",
+        "pressed",
+        "released"
+      ],
+      "duration_range_ms": [
+        300,
+        600
+      ],
+      "easing": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+      "reduced_motion_fallback": "scale-only",
+      "suitable_site_types": [
+        "landing-page",
+        "portfolio",
+        "ecommerce"
+      ],
+      "anti_patterns": [
+        "Applying to destructive or serious system actions",
+        "Stacking with other transform effects causing clipping"
+      ]
+    },
+    "ambient-drift": {
+      "motion_profile": "ambient",
+      "intent": "Adds depth and continuous vitality to empty background spaces without competing with foreground content.",
+      "trigger": "page-load",
+      "states": [
+        "idle"
+      ],
+      "duration_range_ms": [
+        1500,
+        2000
+      ],
+      "easing": "ease-in-out",
+      "reduced_motion_fallback": "static-position",
+      "suitable_site_types": [
+        "landing-page",
+        "portfolio"
+      ],
+      "anti_patterns": [
+        "Moving elements too quickly across the viewport",
+        "Overlapping interactive areas causing pointer-event issues"
+      ]
+    },
+    "minimal-skeleton": {
+      "motion_profile": "minimal",
+      "intent": "Preserves layout structure during data fetching using low-contrast shimmering to reduce perceived load time.",
+      "trigger": "state-change-only",
+      "states": [
+        "loading",
+        "loaded"
+      ],
+      "duration_range_ms": [
+        1000,
+        1500
+      ],
+      "easing": "ease-in-out",
+      "reduced_motion_fallback": "instant-visible",
+      "suitable_site_types": [
+        "dashboard",
+        "saas",
+        "ecommerce",
+        "blog"
+      ],
+      "anti_patterns": [
+        "Mismatching skeleton dimensions with final content",
+        "Animating shimmer at high speeds causing visual stress"
+      ]
+    },
+    "subtle-scale": {
+      "motion_profile": "subtle",
+      "intent": "Confirms cursor hover status on interactive cards or buttons through a minor size adjustment.",
+      "trigger": "user-interaction",
+      "states": [
+        "default",
+        "hovered"
+      ],
+      "duration_range_ms": [
+        100,
+        200
+      ],
+      "easing": "cubic-bezier(0.2, 0, 0, 1)",
+      "reduced_motion_fallback": "none",
+      "suitable_site_types": [
+        "ecommerce",
+        "blog",
+        "portfolio",
+        "docs"
+      ],
+      "anti_patterns": [
+        "Scaling up enough to overlap adjacent sibling elements",
+        "Omitting drop-shadow adjustments when element scales up"
+      ]
+    },
+    "smooth-spring": {
+      "motion_profile": "smooth",
+      "intent": "Reveals off-canvas menus or modal dialogs with a natural, friction-based deceleration to mimic physical slide-in.",
+      "trigger": "user-interaction",
+      "states": [
+        "closed",
+        "open"
+      ],
+      "duration_range_ms": [
+        300,
+        500
+      ],
+      "easing": "cubic-bezier(0.175, 0.885, 0.32, 1)",
+      "reduced_motion_fallback": "instant-state-swap",
+      "suitable_site_types": [
+        "saas",
+        "dashboard",
+        "ecommerce",
+        "general"
+      ],
+      "anti_patterns": [
+        "Using overly bouncy parameters that prolong the interaction time",
+        "Triggering spring animations on scroll instead of direct click"
+      ]
+    },
+    "energetic-flip": {
+      "motion_profile": "energetic",
+      "intent": "Reveals secondary contextual information on the reverse side of a component via a rapid 3D rotation.",
+      "trigger": "user-interaction",
+      "states": [
+        "front",
+        "back"
+      ],
+      "duration_range_ms": [
+        400,
+        600
+      ],
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "reduced_motion_fallback": "instant-state-swap",
+      "suitable_site_types": [
+        "portfolio",
+        "landing-page",
+        "ecommerce"
+      ],
+      "anti_patterns": [
+        "Flipping text heavy content that becomes hard to track",
+        "Ignoring backface-visibility resulting in mirrored content"
+      ]
+    },
+    "cinematic-morph": {
+      "motion_profile": "cinematic",
+      "intent": "Bridges context between a thumbnail and a fullscreen detail view by seamlessly animating shared elements.",
+      "trigger": "user-interaction",
+      "states": [
+        "thumbnail",
+        "fullscreen"
+      ],
+      "duration_range_ms": [
+        600,
+        900
+      ],
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "reduced_motion_fallback": "fade-only",
+      "suitable_site_types": [
+        "portfolio",
+        "ecommerce",
+        "blog"
+      ],
+      "anti_patterns": [
+        "Cross-fading mismatched aspect ratios abruptly",
+        "Animating too many non-shared elements concurrently"
+      ]
+    },
+    "playful-stretch": {
+      "motion_profile": "playful",
+      "intent": "Exaggerates drag or pull-to-refresh interactions using simulated elasticity to make waiting periods feel shorter.",
+      "trigger": "user-interaction",
+      "states": [
+        "default",
+        "stretching",
+        "snapped"
+      ],
+      "duration_range_ms": [
+        200,
+        450
+      ],
+      "easing": "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      "reduced_motion_fallback": "instant-state-swap",
+      "suitable_site_types": [
+        "portfolio",
+        "general",
+        "landing-page"
+      ],
+      "anti_patterns": [
+        "Stretching typography leading to illegibility",
+        "Exceeding realistic screen boundaries during stretch"
+      ]
+    },
+    "functional-spinner": {
+      "motion_profile": "functional",
+      "intent": "Communicates ongoing indeterminate background processes clearly to prevent user abandonment during wait times.",
+      "trigger": "state-change-only",
+      "states": [
+        "hidden",
+        "spinning"
+      ],
+      "duration_range_ms": [
+        600,
+        1000
+      ],
+      "easing": "linear",
+      "reduced_motion_fallback": "fade-only",
+      "suitable_site_types": [
+        "saas",
+        "dashboard",
+        "ecommerce",
+        "docs"
+      ],
+      "anti_patterns": [
+        "Using non-linear easing that makes rotation look jerky",
+        "Leaving spinners active indefinitely without timeouts"
+      ]
+    },
+    "functional-progress": {
+      "motion_profile": "functional",
+      "intent": "Illustrates determinate completion status accurately to set expectations during file uploads or multi-step forms.",
+      "trigger": "state-change-only",
+      "states": [
+        "empty",
+        "filling",
+        "complete"
+      ],
+      "duration_range_ms": [
+        150,
+        300
+      ],
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "reduced_motion_fallback": "instant-state-swap",
+      "suitable_site_types": [
+        "saas",
+        "dashboard",
+        "ecommerce"
+      ],
+      "anti_patterns": [
+        "Animating backwards when progress decreases",
+        "Slowing down artificially to simulate heavy processing"
+      ]
+    },
+    "ambient-glow": {
+      "motion_profile": "ambient",
+      "intent": "Draws subtle atmospheric attention to premium features or hero sections through slowly shifting gradient opacity.",
+      "trigger": "viewport-enter",
+      "states": [
+        "dim",
+        "glowing"
+      ],
+      "duration_range_ms": [
+        1200,
+        2000
+      ],
+      "easing": "linear",
+      "reduced_motion_fallback": "color-highlight-only",
+      "suitable_site_types": [
+        "saas",
+        "landing-page",
+        "portfolio"
+      ],
+      "anti_patterns": [
+        "Causing heavy GPU repaints with unoptimized drop-shadows",
+        "Creating strobing effects that violate accessibility guidelines"
+      ]
+    }
+  }
+}

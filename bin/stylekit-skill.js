@@ -5,8 +5,9 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const { execFileSync, execSync } = require("child_process");
 
-const PACKAGE_NAME = "@anxforever/stylekit-style-prompts-skill";
+const PACKAGE_NAME = "@anxforever/stylekit-skill";
 const SKILL_SLUG = "stylekit-style-prompts";
 const ROOT_DIR = path.resolve(__dirname, "..");
 const PAYLOAD_ITEMS = [
@@ -29,7 +30,7 @@ function printHelp() {
 ${PACKAGE_NAME}
 
 Usage:
-  stylekit-style-prompts-skill <command> [options]
+  stylekit-skill <command> [options]
 
 Commands:
   install      Install the skill payload
@@ -180,6 +181,12 @@ function copyPayload(targetPath, dryRun) {
 
 function install(options) {
   ensurePayloadAvailable();
+  const py = checkPython();
+  if (!py.found) {
+    process.stdout.write("Warning: python3 not found. Pipeline scripts require Python >= 3.10.\n");
+  } else if (!py.ok) {
+    process.stdout.write(`Warning: ${py.version} detected but >= 3.10 is required for pipeline scripts.\n`);
+  }
   const targets = resolveTargets(options.tool, options.target);
   for (const entry of targets) {
     const { tool, targetPath } = entry;
@@ -220,12 +227,33 @@ function uninstall(options) {
   }
 }
 
+function checkPython() {
+  try {
+    const raw = execSync("python3 --version", { encoding: "utf-8" }).trim();
+    const match = raw.match(/Python\s+(\d+)\.(\d+)/);
+    if (!match) return { found: false, version: raw, ok: false };
+    const major = Number.parseInt(match[1], 10);
+    const minor = Number.parseInt(match[2], 10);
+    const ok = major > 3 || (major === 3 && minor >= 10);
+    return { found: true, version: raw, ok };
+  } catch {
+    return { found: false, version: null, ok: false };
+  }
+}
+
 function doctor() {
   const nodeMajor = Number.parseInt(process.versions.node.split(".")[0], 10);
   const nodeOk = Number.isFinite(nodeMajor) && nodeMajor >= 18;
   process.stdout.write(`Node version: ${process.versions.node} (${nodeOk ? "ok" : "fail"})\n`);
   if (!nodeOk) {
     process.stdout.write("Requirement: Node >= 18\n");
+  }
+
+  const py = checkPython();
+  if (py.found) {
+    process.stdout.write(`Python version: ${py.version} (${py.ok ? "ok" : "fail — need >= 3.10"})\n`);
+  } else {
+    process.stdout.write("Python version: not found (fail — python3 is required)\n");
   }
 
   const missingPayload = PAYLOAD_ITEMS.filter(
@@ -238,9 +266,36 @@ function doctor() {
   for (const [tool, targetPath] of Object.entries(DEFAULT_TARGETS)) {
     const installed = fs.existsSync(path.join(targetPath, "SKILL.md"));
     process.stdout.write(`${tool} target: ${targetPath} (${installed ? "installed" : "not installed"})\n`);
+    if (installed) {
+      const catalogPath = path.join(targetPath, "references", "style-prompts.json");
+      const taxonomyDir = path.join(targetPath, "references", "taxonomy");
+      const catalogOk = fs.existsSync(catalogPath);
+      const taxonomyOk = fs.existsSync(taxonomyDir);
+      process.stdout.write(`  style-prompts.json: ${catalogOk ? "ok" : "missing"}\n`);
+      process.stdout.write(`  taxonomy/: ${taxonomyOk ? "ok" : "missing"}\n`);
+      if (catalogOk) {
+        try {
+          JSON.parse(fs.readFileSync(catalogPath, "utf-8"));
+          process.stdout.write("  catalog parse: ok\n");
+        } catch {
+          process.stdout.write("  catalog parse: fail (invalid JSON)\n");
+        }
+      }
+    }
   }
 
-  return nodeOk && missingPayload.length === 0 ? 0 : 1;
+  if (py.ok) {
+    try {
+      const scriptsDirLiteral = JSON.stringify(path.join(ROOT_DIR, "scripts"));
+      const pyCode = `import sys; sys.path.insert(0, ${scriptsDirLiteral}); from _common import __version__; print(__version__)`;
+      execFileSync("python3", ["-c", pyCode], { encoding: "utf-8", timeout: 10000 });
+      process.stdout.write("Python import chain: ok\n");
+    } catch {
+      process.stdout.write("Python import chain: fail (cannot import _common)\n");
+    }
+  }
+
+  return nodeOk && py.ok && missingPayload.length === 0 ? 0 : 1;
 }
 
 function main() {
@@ -254,6 +309,13 @@ function main() {
       return 0;
     case "doctor":
       return doctor();
+    case "version":
+    case "--version":
+    case "-v": {
+      const pkg = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, "package.json"), "utf-8"));
+      process.stdout.write(`${pkg.name} ${pkg.version}\n`);
+      return 0;
+    }
     case "help":
       printHelp();
       return 0;

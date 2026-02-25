@@ -9,7 +9,12 @@ import re
 from pathlib import Path
 from typing import Any
 
-from search_stylekit import load_json, normalize_text, tokenize
+import sys
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
+from _common import RULE_STOPWORDS, __version__, load_json, normalize_text, tokenize
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_ROOT = SCRIPT_DIR.parent
@@ -89,54 +94,7 @@ REFERENCE_TYPE_KEYWORDS = {
     "mixed": ["screenshot", "截图", "figma", "frame", "设计稿", "视觉参考"],
 }
 
-RULE_STOPWORDS = {
-    "use",
-    "using",
-    "must",
-    "should",
-    "ensure",
-    "keep",
-    "add",
-    "set",
-    "avoid",
-    "do",
-    "not",
-    "the",
-    "and",
-    "for",
-    "with",
-    "from",
-    "that",
-    "this",
-    "your",
-    "you",
-    "to",
-    "in",
-    "on",
-    "of",
-    "at",
-    "by",
-    "as",
-    "be",
-    "is",
-    "are",
-    "使用",
-    "添加",
-    "加入",
-    "保持",
-    "确保",
-    "避免",
-    "禁止",
-    "不要",
-    "需要",
-    "并",
-    "和",
-    "与",
-    "在",
-    "到",
-    "及",
-    "或",
-}
+
 CJK_RE = re.compile(r"[\u4e00-\u9fff]")
 RADIUS_TOKEN_RE = re.compile(r"\brounded(?:-[a-z0-9]+)?\b", re.IGNORECASE)
 SHADOW_TOKEN_RE = re.compile(r"\bshadow(?:-[a-z0-9\[\]_/.-]+)?\b", re.IGNORECASE)
@@ -351,6 +309,7 @@ def find_style(catalog: dict[str, Any], slug: str | None) -> dict[str, Any] | No
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit and gate prompt quality")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--input", help="Prompt file path")
     parser.add_argument("--text", help="Inline prompt text")
     parser.add_argument("--prompt-field", default="hard_prompt", help="Preferred JSON field when input is a JSON object")
@@ -374,9 +333,36 @@ def main() -> None:
     parser.add_argument("--catalog", default=str(CATALOG_DEFAULT))
     parser.add_argument("--min-ai-rules", type=int, default=3)
     args = parser.parse_args()
+    payload = run(
+        input_path=args.input,
+        text=args.text,
+        prompt_field=args.prompt_field,
+        lang=args.lang,
+        require_refine_mode=args.require_refine_mode,
+        require_reference_type=args.require_reference_type,
+        require_reference_signals=args.require_reference_signals,
+        style=args.style,
+        catalog=args.catalog,
+        min_ai_rules=args.min_ai_rules,
+    )
+    print(json.dumps(payload, ensure_ascii=False, indent=2))
 
-    text, source_meta = read_prompt_text(args.input, args.text, args.prompt_field)
-    normalized = normalize_text(text)
+
+def run(
+    *,
+    input_path: str | None = None,
+    text: str | None = None,
+    prompt_field: str = "hard_prompt",
+    lang: str | None = None,
+    require_refine_mode: str | None = None,
+    require_reference_type: str | None = None,
+    require_reference_signals: bool = False,
+    style: str | None = None,
+    catalog: str = str(CATALOG_DEFAULT),
+    min_ai_rules: int = 3,
+) -> dict[str, Any]:
+    text_content, source_meta = read_prompt_text(input_path, text, prompt_field)
+    normalized = normalize_text(text_content)
     checks = []
 
     # 1) Non-empty prompt
@@ -391,13 +377,13 @@ def main() -> None:
     )
 
     # 2) Minimum actionable rules
-    bullet_rules = extract_bullet_rules(text)
+    bullet_rules = extract_bullet_rules(text_content)
     checks.append(
         {
             "id": "min_actionable_rules",
             "severity": "high",
-            "passed": len(bullet_rules) >= args.min_ai_rules,
-            "message": f"Prompt should contain at least {args.min_ai_rules} actionable bullet rules.",
+            "passed": len(bullet_rules) >= min_ai_rules,
+            "message": f"Prompt should contain at least {min_ai_rules} actionable bullet rules.",
             "details": {"found": len(bullet_rules)},
         }
     )
@@ -427,9 +413,9 @@ def main() -> None:
     )
 
     # 2.2) Language consistency (hard check)
-    expected_lang = infer_expected_lang(text, args.lang)
-    cjk_count = len(CJK_RE.findall(text))
-    ascii_word_count = len(re.findall(r"[a-zA-Z]{2,}", text))
+    expected_lang = infer_expected_lang(text_content, lang)
+    cjk_count = len(CJK_RE.findall(text_content))
+    ascii_word_count = len(re.findall(r"[a-zA-Z]{2,}", text_content))
     if expected_lang == "en":
         lang_passed = cjk_count == 0
     else:
@@ -450,7 +436,7 @@ def main() -> None:
     )
 
     # 3) Component coverage
-    lower = text.lower()
+    lower = text_content.lower()
     core_components = ["button", "card", "input"]
     secondary_components = ["nav", "hero", "footer", "导航", "首屏", "页脚"]
     core_hits = [c for c in core_components if c in lower]
@@ -591,7 +577,7 @@ def main() -> None:
     )
 
     # 4.6) Refinement mode alignment (optional requirement)
-    refine_mode = args.require_refine_mode
+    refine_mode = require_refine_mode
     if refine_mode:
         refine_keywords = REFINE_MODE_KEYWORDS.get(refine_mode, [])
         refine_hits = contains_any(lower, refine_keywords)
@@ -613,7 +599,7 @@ def main() -> None:
         )
 
     # 4.7) Reference input handling (optional requirement)
-    reference_type = args.require_reference_type
+    reference_type = require_reference_type
     if reference_type:
         if reference_type == "none":
             ref_passed = True
@@ -659,7 +645,7 @@ def main() -> None:
         )
 
     # 4.8) Reference signal extraction block (optional requirement)
-    if args.require_reference_signals:
+    if require_reference_signals:
         signal_block_hits = contains_any(
             lower,
             [
@@ -688,14 +674,14 @@ def main() -> None:
         )
 
     # 5) Style identity and conflict checks (optional)
-    catalog_path = Path(args.catalog)
+    catalog_path = Path(catalog)
     style_data = None
-    if catalog_path.exists() and args.style:
-        catalog = load_json(catalog_path)
-        style_data = find_style(catalog, args.style)
+    if catalog_path.exists() and style:
+        catalog_data = load_json(catalog_path)
+        style_data = find_style(catalog_data, style)
 
     if style_data:
-        prompt_tokens = set(tokenize(text))
+        prompt_tokens = set(tokenize(text_content))
         style_tokens = set(tokenize(" ".join(style_data.get("keywords", []) + style_data.get("tags", []))))
         overlap = sorted(prompt_tokens & style_tokens)
 
@@ -710,7 +696,7 @@ def main() -> None:
         )
 
         possible_conflicts = []
-        norm_text = text.lower()
+        norm_text = text_content.lower()
         for rule in style_data.get("dontList", [])[:20]:
             target = rule.lower().strip()
             if len(target) < 6:
@@ -777,20 +763,20 @@ def main() -> None:
         "violations": failed,
         "autofix_suggestions": suggestions,
         "meta": {
-            "style": args.style,
-            "expected_lang": infer_expected_lang(text, args.lang),
-            "min_ai_rules": args.min_ai_rules,
-            "prompt_length": len(text),
+            "style": style,
+            "expected_lang": infer_expected_lang(text_content, lang),
+            "min_ai_rules": min_ai_rules,
+            "prompt_length": len(text_content),
             "source_kind": source_meta.get("source_kind"),
             "source_field": source_meta.get("source_field"),
-            "prompt_field_preferred": args.prompt_field,
-            "required_refine_mode": args.require_refine_mode,
-            "required_reference_type": args.require_reference_type,
-            "require_reference_signals": args.require_reference_signals,
+            "prompt_field_preferred": prompt_field,
+            "required_refine_mode": require_refine_mode,
+            "required_reference_type": require_reference_type,
+            "require_reference_signals": require_reference_signals,
         },
     }
 
-    print(json.dumps(payload, ensure_ascii=False, indent=2))
+    return payload
 
 
 if __name__ == "__main__":

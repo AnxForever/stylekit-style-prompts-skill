@@ -9,6 +9,11 @@ import re
 from pathlib import Path
 from typing import Any
 
+import sys
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
 from generate_brief import (
     detect_lang,
     ensure_min_rules,

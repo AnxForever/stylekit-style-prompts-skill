@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "search_stylekit_output.json",
+  "title": "search_stylekit.py output",
+  "type": "object",
+  "required": [
+    "query",
+    "query_tokens",
+    "expanded_query_tokens",
+    "top",
+    "returned",
+    "schemaVersion",
+    "candidates"
+  ],
+  "properties": {
+    "query": { "type": "string" },
+    "query_tokens": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "expanded_query_tokens": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "top": { "type": "integer" },
+    "returned": { "type": "integer" },
+    "style_type_filter": { "type": ["string", "null"] },
+    "site_type_filter": { "type": ["string", "null"] },
+    "site_profile": { "type": "object" },
+    "schemaVersion": { "type": "string" },
+    "catalog_schema_version": { "type": ["string", "null"] },
+    "generatedAt": { "type": ["string", "null"] },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slug", "name", "nameEn", "styleType", "score", "reason"],
+        "properties": {
+          "slug": { "type": "string" },
+          "name": { "type": "string" },
+          "nameEn": { "type": "string" },
+          "styleType": { "type": "string" },
+          "score": { "type": "number" },
+          "reason": { "type": ["string", "object"] },
+          "reason_summary": { "type": ["string", "null"] },
+          "preview": { "type": "object" }
+        }
+      }
+    }
+  }
+}

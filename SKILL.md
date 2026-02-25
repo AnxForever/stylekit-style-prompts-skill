@@ -9,11 +9,27 @@ description: Use when users ask to generate beautiful frontend prompts from Styl
 
 Generate better-looking frontend output by combining StyleKit style identity, actionable constraints, and quality checks.
 
+## When to Use
+
+Activate this skill when the user:
+- Asks to generate a frontend design prompt or style prompt
+- Wants to select, compare, or blend StyleKit visual styles
+- Needs a design brief for a new page, dashboard, or landing page
+- Asks to audit or fix an existing frontend prompt's quality
+- Mentions StyleKit, style prompts, or design system prompt generation
+- Wants to convert a screenshot or Figma frame into a style-constrained prompt
+
+Do NOT use this skill for general CSS questions, backend logic, or non-visual tasks.
+
 ## Quick One-shot Command
 
 Run handbook mode in one command (default):
 
 `python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --format json`
+
+Run site-type routed composition (style + layout + motion + interaction):
+
+`python scripts/run_pipeline.py --query "<requirement>" --stack nextjs --site-type dashboard --recommendation-mode hybrid --content-depth skeleton --decision-speed fast --format json`
 
 Run prompt-generation mode with QA gate:
 
@@ -59,14 +75,26 @@ CI one-command gate:
 
 `bash scripts/ci_regression_gate.sh --baseline references/benchmark-baseline.json --snapshot-out tmp/benchmark-ci-latest.json`
 
+Run taxonomy guard with strict style-tag registry usage:
+
+`python scripts/validate_taxonomy.py --format json --max-unused-style-tags 0 --fail-on-warning`
+
+Run output-contract sync guard (docs example JSON vs tests schema):
+
+`python scripts/validate_output_contract_sync.py --format text --fail-on-warning`
+
+Dry-run taxonomy expansion (including optional `new_style_tags` in input JSON):
+
+`python scripts/merge_taxonomy_expansion.py --type animation --input tmp/gemini-output.json --dry-run`
+
 ## Workflow 1: Requirement -> Style Candidates -> Design Brief -> Prompt
 
 1. Refresh dataset when needed:
    `bash scripts/refresh-style-prompts.sh /mnt/d/stylekit`
 2. Retrieve top style candidates:
-   `python scripts/search_stylekit.py --query "<requirement>" --top 5`
+   `python scripts/search_stylekit.py --query "<requirement>" --top 5 --site-type <auto|blog|saas|dashboard|docs|ecommerce|landing-page|portfolio|general>`
 3. Generate design brief and prompts:
-   `python scripts/generate_brief.py --query "<requirement>" --stack nextjs --mode brief+prompt`
+   `python scripts/generate_brief.py --query "<requirement>" --stack nextjs --site-type dashboard --recommendation-mode hybrid --content-depth skeleton --decision-speed fast --mode brief+prompt`
 4. If needed, force multi-style blend ownership:
    `python scripts/generate_brief.py --query "<requirement>" --stack nextjs --mode brief+prompt --blend-mode on`
 5. For iterative work, set refine mode:
@@ -87,7 +115,7 @@ CI one-command gate:
 3. Read `manual_assistant.decision_assistant.recommended_style_options` and explain 3-4 options with trade-offs.
 4. Ask `manual_assistant.decision_assistant.decision_questions` to help user pick direction.
 5. After user selects one option, run codegen mode with forced style:
-   `python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --style <slug> --blend-mode off --format json`
+   `python scripts/run_pipeline.py --workflow codegen --query "<requirement>" --stack nextjs --style <slug> --site-type <type> --content-depth skeleton --blend-mode off --format json`
 6. Follow `references/cc-decision-conversation-template.md` for a turn-by-turn assistant script.
 
 ## Workflow 2: Existing Prompt -> Quality Audit -> Fix Suggestions
@@ -125,6 +153,12 @@ Primary output object fields:
 - `soft_prompt`
 - `ai_rules`
 - `style_choice`
+- `site_profile`
+- `tag_bundle`
+- `composition_plan`
+- `decision_flow`
+- `content_plan`
+- `upgrade_candidates`
 - `quality_gate` (for audits)
 - `design_brief.refine_mode`
 - `design_brief.input_context.reference_type`
@@ -141,7 +175,22 @@ Primary output object fields:
 - Include pre-delivery validation tests (swap/squint/signature/token).
 - Include an anti-pattern blacklist (absolute layout misuse, nested scroll, missing focus states, etc.).
 - Preserve user language (Chinese in -> Chinese out; English in -> English out).
-- If intent is ambiguous, return top 3 candidates with reasons before final prompt.
+- If intent is ambiguous, return top 5 candidates with reasons before final prompt.
+
+## Error Handling
+
+- If `quality_gate.status` is `"fail"`, read `violations` and `autofix_suggestions`, apply fixes, then re-run the QA audit. Repeat up to 3 rounds.
+- If the pipeline exits with a non-zero code, check stderr for `ModuleNotFoundError` (missing Python dependency or wrong cwd) or `FileNotFoundError` (missing reference data — run `refresh-style-prompts.sh` first).
+- If `search_candidates` returns 0 results, broaden the query or remove `--site-type` constraint.
+
+## Parameter Interactions
+
+- `--blend-mode on` + `--style <slug>`: forces blend OFF (explicit style selection overrides blend).
+- `--refine-mode` requires `--workflow codegen`; ignored in handbook mode.
+- `--reference-type` + `--strict-reference-schema`: strict mode validates the reference JSON payload against the expected schema and fails fast on mismatch.
+- `--recommendation-mode hybrid` uses both BM25 search and taxonomy routing; `rules` skips BM25 and relies solely on site-type routing rules.
+- `--content-depth skeleton` produces minimal structure; `storyboard` adds section copy; `near-prod` generates production-ready content blocks.
+- `validate_taxonomy.py --max-unused-style-tags 0 --fail-on-warning` enforces zero unused tags in `style-tag-registry` and treats warnings as failures.
 
 ## Stack Adapters
 
@@ -173,5 +222,12 @@ If stack is unknown, fallback to framework-agnostic Tailwind semantics.
 - `scripts/benchmark_pipeline.py`: benchmark pass-rate, hard-check pass rate, bucket pass-rate (`strict-domain`/`balanced`/`expressive`), snapshot export, and baseline regression gate.
 - `scripts/ci_regression_gate.sh`: CI wrapper for benchmark regression gate (supports baseline bootstrap).
 - `scripts/smoke_test.py`: validate end-to-end script integrity.
+- `scripts/validate_taxonomy.py`: taxonomy consistency + style-tag-registry coverage guard (`--fail-on-warning` promotes warnings to failures).
+- `scripts/validate_output_contract_sync.py`: output-contract markdown JSON examples vs tests schema sync guard (uses the first JSON block in each required section as canonical; `--fail-on-warning` promotes warnings to failures).
+- `scripts/merge_taxonomy_expansion.py`: merge Gemini taxonomy expansion payloads (animation/interaction + optional `new_style_tags`).
+- `scripts/propose_upgrade.py`: generate manual-review upgrade candidates from pipeline output.
+- `scripts/review_upgrade_candidate.py`: validate upgrade candidate schema and gate requirements.
 - `references/benchmark-baseline.json`: default baseline snapshot for CI gate.
 - `references/github-actions-regression-gate.yml`: GitHub Actions template for regression automation.
+- `references/taxonomy/style-tag-registry.json`: controlled style tag dictionary used by routing validation.
+- `references/taxonomy/*`: site-type routing, controlled tags, alias mapping, and style-tag overrides.

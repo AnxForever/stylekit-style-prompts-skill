@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "generate_brief_output.json",
+  "title": "generate_brief.py --mode brief+prompt output",
+  "type": "object",
+  "required": [
+    "query",
+    "mode",
+    "language",
+    "style_choice",
+    "design_brief",
+    "ai_rules",
+    "hard_prompt",
+    "soft_prompt",
+    "candidate_rank"
+  ],
+  "properties": {
+    "query": { "type": "string" },
+    "mode": { "type": "string" },
+    "language": { "type": "string" },
+    "style_choice": {
+      "type": "object",
+      "required": ["primary", "alternatives", "why"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": ["slug", "name", "nameEn", "styleType"],
+          "properties": {
+            "slug": { "type": "string" },
+            "name": { "type": "string" },
+            "nameEn": { "type": "string" },
+            "styleType": { "type": "string" }
+          }
+        },
+        "alternatives": { "type": "array" },
+        "why": { "type": ["string", "object"] }
+      }
+    },
+    "design_brief": {
+      "type": "object",
+      "required": [
+        "style_choice",
+        "design_intent",
+        "refine_mode",
+        "iteration_strategy",
+        "input_context",
+        "visual_direction",
+        "typography_strategy",
+        "anti_generic_constraints",
+        "validation_tests",
+        "anti_pattern_blacklist",
+        "design_system_structure",
+        "site_profile",
+        "tag_bundle",
+        "composition_plan",
+        "decision_flow",
+        "content_plan",
+        "component_guidelines",
+        "interaction_rules",
+        "a11y_baseline",
+        "stack_hint",
+        "blend_plan",
+        "color_strategy",
+        "font_strategy_hints"
+      ],
+      "properties": {
+        "style_choice": { "type": "object" },
+        "design_intent": { "type": ["string", "object"] },
+        "refine_mode": { "type": "string" },
+        "iteration_strategy": { "type": ["object", "string"] },
+        "input_context": { "type": "object" },
+        "visual_direction": { "type": ["object", "string"] },
+        "typography_strategy": { "type": ["object", "string"] },
+        "anti_generic_constraints": { "type": ["object", "array"] },
+        "validation_tests": { "type": "array" },
+        "anti_pattern_blacklist": { "type": "array" },
+        "design_system_structure": { "type": "object" },
+        "site_profile": { "type": "object" },
+        "tag_bundle": { "type": "object" },
+        "composition_plan": { "type": "object" },
+        "decision_flow": { "type": "object" },
+        "content_plan": { "type": "object" },
+        "component_guidelines": { "type": "array" },
+        "interaction_rules": { "type": "array" },
+        "a11y_baseline": { "type": "array" },
+        "stack_hint": { "type": "string" },
+        "blend_plan": { "type": "object" },
+        "color_strategy": { "type": "object" },
+        "font_strategy_hints": { "type": ["object", "array"] }
+      }
+    },
+    "ai_rules": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 3
+    },
+    "hard_prompt": { "type": "string" },
+    "soft_prompt": { "type": "string" },
+    "candidate_rank": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slug", "score", "reason"],
+        "properties": {
+          "slug": { "type": "string" },
+          "score": { "type": "number" },
+          "reason": { "type": ["string", "object"] }
+        }
+      }
+    }
+  }
+}

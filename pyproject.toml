@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stylekit-skill-scripts"
+version = "0.2.0"
+description = "Python pipeline scripts for StyleKit skill"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: integration tests that invoke full pipeline"]

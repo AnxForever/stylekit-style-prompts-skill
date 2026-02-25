@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "2.0.0",
+  "site_type_aliases": {
+    "blog": ["blog", "article", "editorial", "博客", "文章", "内容站"],
+    "saas": ["saas", "b2b", "workspace", "product app", "软件服务", "企业应用"],
+    "dashboard": ["dashboard", "admin", "panel", "console", "后台", "仪表盘", "控制台", "看板"],
+    "docs": ["docs", "documentation", "guide", "manual", "文档", "帮助中心", "说明"],
+    "ecommerce": ["ecommerce", "store", "shop", "checkout", "电商", "商城", "购物", "商品"],
+    "landing-page": ["landing", "hero", "marketing", "homepage", "落地页", "官网首页", "营销页"],
+    "portfolio": ["portfolio", "case study", "showreel", "作品集", "案例展示", "个人展示"],
+    "general": ["web", "website", "app", "站点", "网站", "页面"]
+  },
+  "motion_aliases": {
+    "minimal": ["静态", "少动效", "minimal motion", "almost no motion"],
+    "subtle": ["subtle", "gentle", "克制", "轻微动效"],
+    "smooth": ["smooth", "丝滑", "连贯", "流畅"],
+    "energetic": ["energetic", "bold motion", "强动效", "明显动效"],
+    "cinematic": ["cinematic", "叙事感", "镜头感"]
+  },
+  "interaction_aliases": {
+    "content-reading": ["阅读", "reading", "long-form", "内容优先"],
+    "conversion-focused": ["转化", "conversion", "cta", "购买", "注册"],
+    "data-dense-feedback": ["数据密度", "kpi", "table", "chart", "反馈明确"],
+    "showcase-narrative": ["展示", "narrative", "作品展示", "故事化"],
+    "docs-navigation": ["目录", "search", "toc", "文档导航"],
+    "assistant-guided": ["引导", "guided", "wizard", "step-by-step"]
+  }
+}

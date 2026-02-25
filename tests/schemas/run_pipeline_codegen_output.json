@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "run_pipeline_codegen_output.json",
+  "title": "run_pipeline.py --workflow codegen output",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "status",
+    "workflow",
+    "mode",
+    "query",
+    "site_type",
+    "stack",
+    "selected_style",
+    "site_profile",
+    "tag_bundle",
+    "composition_plan",
+    "decision_flow",
+    "content_plan",
+    "candidates",
+    "result",
+    "manual_assistant",
+    "quality_gate",
+    "upgrade_candidates"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "status": { "type": "string" },
+    "workflow": { "type": "string", "const": "codegen" },
+    "mode": { "type": "string" },
+    "query": { "type": "string" },
+    "site_type": { "type": "string" },
+    "stack": { "type": "string" },
+    "selected_style": { "type": "string" },
+    "site_profile": { "type": "object" },
+    "tag_bundle": { "type": "object" },
+    "composition_plan": { "type": "object" },
+    "decision_flow": { "type": "object" },
+    "content_plan": { "type": "object" },
+    "candidates": { "type": "array" },
+    "result": {
+      "type": "object",
+      "required": ["hard_prompt", "soft_prompt"],
+      "properties": {
+        "hard_prompt": { "type": "string" },
+        "soft_prompt": { "type": "string" }
+      }
+    },
+    "manual_assistant": { "type": "object" },
+    "quality_gate": {
+      "type": "object",
+      "required": ["status", "checks"],
+      "properties": {
+        "status": { "type": "string" },
+        "checks": { "type": "array" }
+      }
+    },
+    "upgrade_candidates": { "type": "array" }
+  }
+}
