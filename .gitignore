@@ -6,3 +6,7 @@ tmp/
 node_modules/
 .pytest_cache/
 *.tgz
+.spec-workflow/
+AGENTS.md
+.agents/
+.codex/
