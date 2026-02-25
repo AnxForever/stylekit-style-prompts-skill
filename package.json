@@ -11,13 +11,13 @@
     "SKILL.md",
     "README.md",
     "RELEASE.md",
-    "GO_LIVE_CHECKLIST.md",
     "LICENSE",
     "agents/*.yaml",
     "references/*.md",
     "references/*.json",
     "references/*.yml",
     "references/taxonomy/*.json",
+    "references/schemas/*.json",
     "scripts/*.py",
     "scripts/*.sh",
     "bin/stylekit-skill.js"
@@ -41,8 +41,6 @@
   "scripts": {
     "doctor": "node bin/stylekit-skill.js doctor",
     "smoke": "python3 scripts/smoke_test.py",
-    "test:unit": "pytest tests/ -m \"not slow\" -q",
-    "test:slow": "pytest tests/ -m slow -q",
     "check:taxonomy": "python3 scripts/validate_taxonomy.py --format text --max-unused-style-tags 0 --fail-on-warning",
     "check:contract": "python3 scripts/validate_output_contract_sync.py --format text --fail-on-warning",
     "check:gate": "bash scripts/ci_regression_gate.sh --baseline references/benchmark-baseline.json --snapshot-out tmp/benchmark-ci-latest.json",

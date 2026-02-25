@@ -66,7 +66,7 @@ python3 scripts/review_upgrade_candidate.py --candidate tmp/upgrade-proposals/<c
 - v2 支持站点类型路由：`--site-type`（blog/saas/dashboard/docs/ecommerce/landing-page/portfolio/general）。
 - v2 支持组合决策参数：`--recommendation-mode`、`--content-depth`、`--decision-speed`。
 - taxonomy 门禁可用 `--max-unused-style-tags 0 --fail-on-warning` 强制 style tag registry 无闲置条目且 warning 视为失败。
-- 契约防漂移门禁可用 `validate_output_contract_sync.py`：校验 `references/output-contract.md` 与 `tests/schemas` 一致（按每个必需章节的第一个 JSON 示例做门禁校验，可用 `--fail-on-warning` 将 warning 提升为失败）。
+- 契约防漂移门禁可用 `validate_output_contract_sync.py`：校验 `references/output-contract.md` 与 `references/schemas` 一致（按每个必需章节的第一个 JSON 示例做门禁校验，可用 `--fail-on-warning` 将 warning 提升为失败）。
 - taxonomy 扩展脚本支持 `new_style_tags` 字段，并会在 apply 时更新 `references/taxonomy/style-tag-registry.json`。
 - 在 manual 模式下，会额外输出 `manual_assistant.decision_assistant`，包含：候选风格卡片、给新手的引导问题、以及用户选定风格后的下一步命令模板。
 - 可直接复用对话模板：`references/cc-decision-conversation-template.md`。
@@ -91,7 +91,3 @@ npm publish --access public
 ```
 
 发布后，任何人都可以通过 `npx @anxforever/stylekit-skill ...` 直接安装。
-
-## 5) 正式上线清单
-
-上线前请完整执行：`GO_LIVE_CHECKLIST.md`。

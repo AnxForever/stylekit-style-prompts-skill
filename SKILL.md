@@ -79,7 +79,7 @@ Run taxonomy guard with strict style-tag registry usage:
 
 `python scripts/validate_taxonomy.py --format json --max-unused-style-tags 0 --fail-on-warning`
 
-Run output-contract sync guard (docs example JSON vs tests schema):
+Run output-contract sync guard (docs example JSON vs references/schemas):
 
 `python scripts/validate_output_contract_sync.py --format text --fail-on-warning`
 
@@ -223,7 +223,7 @@ If stack is unknown, fallback to framework-agnostic Tailwind semantics.
 - `scripts/ci_regression_gate.sh`: CI wrapper for benchmark regression gate (supports baseline bootstrap).
 - `scripts/smoke_test.py`: validate end-to-end script integrity.
 - `scripts/validate_taxonomy.py`: taxonomy consistency + style-tag-registry coverage guard (`--fail-on-warning` promotes warnings to failures).
-- `scripts/validate_output_contract_sync.py`: output-contract markdown JSON examples vs tests schema sync guard (uses the first JSON block in each required section as canonical; `--fail-on-warning` promotes warnings to failures).
+- `scripts/validate_output_contract_sync.py`: output-contract markdown JSON examples vs references/schemas sync guard (uses the first JSON block in each required section as canonical; `--fail-on-warning` promotes warnings to failures).
 - `scripts/merge_taxonomy_expansion.py`: merge Gemini taxonomy expansion payloads (animation/interaction + optional `new_style_tags`).
 - `scripts/propose_upgrade.py`: generate manual-review upgrade candidates from pipeline output.
 - `scripts/review_upgrade_candidate.py`: validate upgrade candidate schema and gate requirements.

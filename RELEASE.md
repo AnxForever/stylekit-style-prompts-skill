@@ -1,7 +1,6 @@
 # Release Process
 
 This repository uses benchmark regression gates to keep skill quality stable.
-For full release readiness gates, also run `GO_LIVE_CHECKLIST.md`.
 
 ## 1) Pre-release Checks
 
@@ -55,11 +54,7 @@ git push origin v0.1.0
 
 ## 5) CI Gate
 
-CI workflow:
-
-- `.github/workflows/regression-gate.yml`
-
-One-command local equivalent:
+One-command local CI equivalent:
 
 ```bash
 bash scripts/ci_regression_gate.sh \

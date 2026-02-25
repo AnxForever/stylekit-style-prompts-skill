@@ -3,7 +3,7 @@
 
 This guard prevents drift between:
 1) human-facing contract examples in references/output-contract.md
-2) machine-enforced schemas under tests/schemas/
+2) machine-enforced schemas under references/schemas/
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from jsonschema import Draft202012Validator
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_ROOT = SCRIPT_DIR.parent
 DEFAULT_CONTRACT_FILE = SKILL_ROOT / "references" / "output-contract.md"
-DEFAULT_SCHEMAS_DIR = SKILL_ROOT / "tests" / "schemas"
+DEFAULT_SCHEMAS_DIR = SKILL_ROOT / "references" / "schemas"
 REQUIRED_HEADINGS = (
     "1) Candidate Search Output",
     "2) Design Brief + Prompt Output",
@@ -284,7 +284,7 @@ def run(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Validate references/output-contract.md examples against tests/schemas JSON schemas",
+        description="Validate references/output-contract.md examples against references/schemas JSON schemas",
     )
     parser.add_argument("--contract-file", default=str(DEFAULT_CONTRACT_FILE))
     parser.add_argument("--schemas-dir", default=str(DEFAULT_SCHEMAS_DIR))
